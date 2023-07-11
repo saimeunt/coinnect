@@ -1,0 +1,17 @@
+.next
+.vscode
+node_modules
+.env
+.env.local
+.DS_Store
+npm-debug.log
+tsconfig.tsbuildinfo
+
+coverage
+coverage.json
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
