@@ -6,6 +6,7 @@ import {
   rawCreatorAccountToCreatorAccount,
   rawUserAccountToUserAccount,
   baseUrl,
+  defaultPosts,
 } from '../lib/utils';
 
 async function main() {
@@ -18,16 +19,19 @@ async function main() {
   const accounts = await ethers.deployContract('Accounts');
   await accounts.waitForDeployment();
   console.log(`Accounts successfully deployed to ${accounts.target}`);
-  const tokens = await ethers.deployContract('Tokens', [accounts.target]);
+  const tokens = await ethers.deployContract('Tokens', [
+    new URL('/api/tokens/{id}.json', baseUrl()).href,
+    accounts.target,
+  ]);
   await tokens.waitForDeployment();
   console.log(`Tokens successfully deployed to ${tokens.target}`);
   await accounts.setTokens(tokens.target);
   //
   const [signer1, signer2, signer3] = await ethers.getSigners();
-  await stableCoin.mint(signer1, 10000);
+  await stableCoin.mint(signer1, 10000 ** 6);
   if (process.env.NODE_ENV !== 'production') {
-    await stableCoin.mint(signer2, 10000);
-    await stableCoin.mint(signer3, 10000);
+    await stableCoin.mint(signer2, 10000 ** 6);
+    await stableCoin.mint(signer3, 10000 ** 6);
   }
   //
   const name = stringToHex('tribe-diamond', { size: 32 });
@@ -58,12 +62,13 @@ async function main() {
     oboleId: BigInt(1),
     userId: stringToHex(userId1Raw, { size: 32 }),
   };
-  const userCreatorAccount = rawCreatorAccountToCreatorAccount(rawCreatorAccount);
-  console.log(JSON.stringify({ creatorAccount: userCreatorAccount }));
+  // console.log(JSON.stringify({ creatorAccount: userCreatorAccount }));
   await clerkClient.users.updateUserMetadata(userId1, {
-    publicMetadata: { creatorAccount: userCreatorAccount },
+    publicMetadata: { creatorAccount: rawCreatorAccountToCreatorAccount(rawCreatorAccount) },
+    privateMetadata: { posts: defaultPosts() },
   });
-  await accounts.createCreatorAccount(rawCreatorAccount);
+  const tx1 = await accounts.createCreatorAccount(rawCreatorAccount);
+  await tx1.wait();
   const creatorAccount = await accounts.getCreatorAccountByName(name);
   console.log(creatorAccount);
   if (process.env.NODE_ENV !== 'production') {
@@ -75,17 +80,20 @@ async function main() {
       interests: [0],
       userId: stringToHex(userId2Raw, { size: 32 }),
     };
-    await accounts.connect(signer2).createUserAccount(rawUserAccount);
-    const userUserAccount = rawUserAccountToUserAccount(rawUserAccount);
-    console.log(JSON.stringify({ userAccount: userUserAccount }));
+    const tx2 = await accounts.connect(signer2).createUserAccount(rawUserAccount);
+    await tx2.wait();
+    // console.log(JSON.stringify({ userAccount: userUserAccount }));
     await clerkClient.users.updateUserMetadata(userId2, {
-      publicMetadata: { userAccount: userUserAccount },
+      publicMetadata: { userAccount: rawUserAccountToUserAccount(rawUserAccount) },
     });
     const userAccount = await accounts.getUserAccountByAddress(signer2.address);
     console.log(userAccount);
-    await tokens.connect(signer2).mintMembershipCard(name);
-    const membershipCardData = await tokens.getMembershipCardData(2);
+    const tx3 = await tokens.connect(signer2).mintMembershipCard(name);
+    await tx3.wait();
+    const membershipCardData = await tokens.getMembershipCardData(BigInt(2));
     console.log(membershipCardData);
+    const uri = await tokens.uri(BigInt(2));
+    console.log(uri);
   }
 }
 

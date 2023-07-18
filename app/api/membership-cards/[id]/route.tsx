@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import satori from 'satori';
 import { capitalize } from 'lodash';
+import { format } from 'date-fns';
 
 import { colors } from '../../../../lib/constants';
 import { getMembershipCardData } from '../../../../lib/contracts/tokens/contract';
@@ -25,8 +26,8 @@ const CardPreview = ({
   logoUrl: string;
   tier: string;
   memberId: string;
-  subscriptionStartTimestamp: string;
-  subscriptionEndTimestamp: string;
+  subscriptionStartTimestamp: number;
+  subscriptionEndTimestamp: number;
   username: string;
   avatarUrl: string;
   oboleBalance: string;
@@ -50,7 +51,13 @@ const CardPreview = ({
             <p tw="mb-0.5 text-xl font-bold tracking-tight text-gray-900">
               {capitalize(tier)} membership
             </p>
-            <p tw="mt-0.5 text-sm text-gray-700">Member #{memberId} since 10/2022</p>
+            <p tw="mt-0.5 text-sm text-gray-700">
+              Member #{memberId} since{' '}
+              {format(new Date(subscriptionStartTimestamp * 1000), 'MM/yyyy')}
+              {subscriptionEndTimestamp === 0
+                ? ''
+                : ` expires ${format(new Date(subscriptionEndTimestamp * 1000), 'MM/yyyy')}`}
+            </p>
           </div>
           <div tw="flex items-center">
             <div tw="flex flex-col justify-center text-sm">
@@ -104,8 +111,8 @@ export const GET = async (request: NextRequest) => {
       logoUrl={logoUrl}
       tier={tier}
       memberId={memberId.toString()}
-      subscriptionStartTimestamp={subscriptionStartTimestamp.toString()}
-      subscriptionEndTimestamp={subscriptionEndTimestamp.toString()}
+      subscriptionStartTimestamp={Number(subscriptionStartTimestamp)}
+      subscriptionEndTimestamp={Number(subscriptionEndTimestamp)}
       username={username}
       avatarUrl={avatarUrl}
       oboleBalance={oboleBalance.toString()}

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { addYears } from 'date-fns';
 
 import { CreatorAccount, CardTierName } from '../../lib/types';
 import { colors } from '../../lib/constants';
@@ -59,8 +60,10 @@ const CardTier = ({
         logoUrl={logoUrl}
         tier={tier}
         memberId="1"
-        subscriptionStartTimestamp="0"
-        subscriptionEndTimestamp="0"
+        subscriptionStartTimestamp={Math.floor(Date.now() / 1000)}
+        subscriptionEndTimestamp={
+          tier === 'free' ? 0 : Math.floor(addYears(new Date(), 1).getTime() / 1000)
+        }
         username={user.fullName}
         avatarUrl={user.profileImageUrl}
         oboleBalance="0"

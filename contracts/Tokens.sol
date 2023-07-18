@@ -16,6 +16,8 @@ contract Tokens is ERC1155 {
     bytes32 creatorName;
     address userAddress;
     uint memberId;
+    uint subscriptionStartTimestamp;
+    uint subscriptionEndTimestamp;
   }
   mapping(uint => MembershipCard) membershipCards;
   struct MembershipCardData {
@@ -38,7 +40,7 @@ contract Tokens is ERC1155 {
   error InvalidCreatorNameError(bytes32 creatorName);
   error InvalidUserAddressError(address userAddress);
 
-  constructor(address accountsAddress) ERC1155('http://localhost:3000/api/tokens/{id}.json') {
+  constructor(string memory uri, address accountsAddress) ERC1155(uri) {
     accounts = Accounts(accountsAddress);
   }
 
@@ -68,7 +70,9 @@ contract Tokens is ERC1155 {
     membershipCards[tokenId] = MembershipCard({
       creatorName: creatorName,
       userAddress: msg.sender,
-      memberId: memberId
+      memberId: memberId,
+      subscriptionStartTimestamp: block.timestamp,
+      subscriptionEndTimestamp: 0
     });
     _mint(msg.sender, tokenId, 1, '');
   }
@@ -88,8 +92,8 @@ contract Tokens is ERC1155 {
         logoUrl: creatorAccount.cards.free.logoUrl,
         tier: 'free',
         memberId: membershipCard.memberId,
-        subscriptionStartTimestamp: 0,
-        subscriptionEndTimestamp: 0,
+        subscriptionStartTimestamp: membershipCard.subscriptionStartTimestamp,
+        subscriptionEndTimestamp: membershipCard.subscriptionEndTimestamp,
         username: userAccount.username,
         avatarUrl: userAccount.avatarUrl,
         oboleBalance: oboleBalance,

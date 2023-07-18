@@ -1,4 +1,5 @@
 import { capitalize } from 'lodash';
+import { format } from 'date-fns';
 
 import { CardTierName } from '../../lib/types';
 
@@ -22,8 +23,8 @@ const CardPreview = ({
   logoUrl: string;
   tier: CardTierName;
   memberId: string;
-  subscriptionStartTimestamp: string;
-  subscriptionEndTimestamp: string;
+  subscriptionStartTimestamp: number;
+  subscriptionEndTimestamp: number;
   username: string;
   avatarUrl: string;
   oboleBalance: string;
@@ -49,7 +50,13 @@ const CardPreview = ({
             <p className="text-xl font-bold tracking-tight text-gray-900">
               {capitalize(tier)} membership
             </p>
-            <p className="text-sm text-gray-700">Member #{memberId} since 10/2022</p>
+            <p className="text-sm text-gray-700">
+              Member #{memberId} since{' '}
+              {format(new Date(subscriptionStartTimestamp * 1000), 'MM/yyyy')}
+              {subscriptionEndTimestamp === 0
+                ? ''
+                : ` expires ${format(new Date(subscriptionEndTimestamp * 1000), 'MM/yyyy')}`}
+            </p>
           </div>
           <div className="flex items-center">
             <div className="flex flex-col justify-center text-sm">

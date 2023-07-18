@@ -33,23 +33,23 @@ export const GET = async (request: NextRequest) => {
     image_data: svgImageData,
     external_url: membershipCardUrl.toString(),
     description,
-    name: `${title} Membership Card #${tokenId}`,
+    name: `${title} Membership Card #${memberId}`,
     attributes: [
       { trait_type: 'color', value: color },
       { trait_type: 'tier', value: tier },
-      { trait_type: 'memberId', value: memberId, display_type: 'numeric' },
+      { trait_type: 'memberId', value: Number(memberId), display_type: 'numeric' },
       {
         trait_type: 'subscriptionStartTimestamp',
-        value: subscriptionStartTimestamp,
+        value: Number(subscriptionStartTimestamp),
         display_type: 'date',
       },
       {
         trait_type: 'subscriptionEndTimestamp',
-        value: subscriptionEndTimestamp,
+        value: Number(subscriptionEndTimestamp),
         display_type: 'date',
       },
       { trait_type: 'username', value: username },
-      { trait_type: 'oboleBalance', value: oboleBalance, display_type: 'numeric' },
+      { trait_type: 'oboleBalance', value: Number(oboleBalance), display_type: 'numeric' },
     ],
     background_color: 'F8FAFC',
   });

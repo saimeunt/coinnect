@@ -91,6 +91,23 @@ export const creatorUrl = (name: string) => {
   return new URL(`/creators/${name}`, baseUrl());
 };
 
+export const defaultPosts = () => [
+  {
+    videoUrl: 'https://www.youtube.com/watch?v=S1Mvy3E8P2U',
+    title: 'First live',
+    description: 'This is the intro live of the channel, check it out!',
+    tier: 'public',
+    date: new Date('2023-07-03').toISOString(),
+  },
+  {
+    videoUrl: 'https://www.youtube.com/watch?v=WRWtvbyprgo',
+    title: 'Second live',
+    description: 'Talking about my favorite musicians.',
+    tier: 'free',
+    date: new Date('2023-07-10').toISOString(),
+  },
+];
+
 export const currentUser = async () => ({
   firstName: 'Firstname',
   lastName: 'Lastname',
@@ -100,21 +117,6 @@ export const currentUser = async () => ({
     creatorAccount: defaultCreatorAccount(),
   },
   privateMetadata: {
-    posts: [
-      {
-        videoUrl: 'https://www.youtube.com/watch?v=S1Mvy3E8P2U',
-        title: 'First live',
-        description: 'This is the intro live of the channel, check it out!',
-        tier: 'free',
-        date: new Date('2023-07-03').toISOString(),
-      },
-      {
-        videoUrl: 'https://www.youtube.com/watch?v=WRWtvbyprgo',
-        title: 'Second live',
-        description: 'Talking about my favorite musicians.',
-        tier: 'free',
-        date: new Date('2023-07-10').toISOString(),
-      },
-    ],
+    posts: defaultPosts(),
   },
 });

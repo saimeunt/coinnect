@@ -2,6 +2,11 @@ const abi = [
   {
     inputs: [
       {
+        internalType: 'string',
+        name: 'uri',
+        type: 'string',
+      },
+      {
         internalType: 'address',
         name: 'accountsAddress',
         type: 'address',

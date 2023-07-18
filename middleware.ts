@@ -10,6 +10,7 @@ export default authMiddleware({
     '/api/membership-cards/:id',
     '/api/tokens/:id.json',
     '/creators/:name',
+    '/creators/:name/about',
   ],
   /* async afterAuth(auth, req, evt) {
     // handle users who aren't authenticated
