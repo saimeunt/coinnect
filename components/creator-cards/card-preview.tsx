@@ -1,10 +1,14 @@
+import { capitalize } from 'lodash';
+
+import { CardTierName } from '../../lib/types';
+
 const size = { width: 1024, height: 1024 };
 
 const CardPreview = ({
   color,
   logoUrl,
   tier,
-  tokenId,
+  memberId,
   subscriptionStartTimestamp,
   subscriptionEndTimestamp,
   username,
@@ -12,12 +16,12 @@ const CardPreview = ({
   oboleBalance,
   title,
   description,
-  href,
+  name,
 }: {
   color: string;
   logoUrl: string;
-  tier: string;
-  tokenId: string;
+  tier: CardTierName;
+  memberId: string;
   subscriptionStartTimestamp: string;
   subscriptionEndTimestamp: string;
   username: string;
@@ -25,7 +29,7 @@ const CardPreview = ({
   oboleBalance: string;
   title: string;
   description: string;
-  href: string;
+  name: string;
 }) => (
   <div
     style={{ width: 1024, height: 418 }}
@@ -36,11 +40,16 @@ const CardPreview = ({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className="h-96 w-96 rounded-l-lg" src={logoUrl} alt={`${title} logo`} />
-      <div className="flex h-96 flex-col justify-between p-4 leading-normal">
+      <div
+        style={{ width: size.width - 384 - 32 }}
+        className="flex h-96 flex-col justify-between p-4 leading-normal"
+      >
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <p className="text-xl font-bold tracking-tight text-gray-900">{tier} membership</p>
-            <p className="text-sm text-gray-700">Member #{tokenId} since 10/2022</p>
+            <p className="text-xl font-bold tracking-tight text-gray-900">
+              {capitalize(tier)} membership
+            </p>
+            <p className="text-sm text-gray-700">Member #{memberId} since 10/2022</p>
           </div>
           <div className="flex items-center">
             <div className="flex flex-col justify-center text-sm">
@@ -59,8 +68,11 @@ const CardPreview = ({
           <p className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{title}</p>
           <p className="font-normal text-gray-700">{description}</p>
         </div>
-        <a href={href} className="text-cyan-500">
-          {href}
+        <a
+          href={`${process.env.NEXT_PUBLIC_DAPP_URL}/creators/${name}`}
+          className={`text-${color}-500`}
+        >
+          {process.env.NEXT_PUBLIC_DAPP_URL}/creators/{name}
         </a>
       </div>
     </div>

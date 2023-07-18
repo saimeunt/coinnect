@@ -9,7 +9,7 @@ export const metadata = {
   openGraph: {
     title,
     description,
-    url: 'https://coinnect.vercel.app/',
+    url: process.env.NEXT_PUBLIC_DAPP_URL,
     type: 'website',
   },
   twitter: {

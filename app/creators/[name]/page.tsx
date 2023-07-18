@@ -1,7 +1,7 @@
-import CreatorPublic from '../../../components/creator-public';
+import Creators from '../../../components/creators';
 
-const CreatorPublicPage = ({ params: { name } }: { params: { name: string } }) => (
-  <CreatorPublic name={name} />
+const CreatorsPage = ({ params: { name } }: { params: { name: string } }) => (
+  <Creators name={name} />
 );
 
-export default CreatorPublicPage;
+export default CreatorsPage;

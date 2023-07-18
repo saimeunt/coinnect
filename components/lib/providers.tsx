@@ -5,14 +5,16 @@ import { RainbowKitProvider, lightTheme } from '@rainbow-me/rainbowkit';
 import { indigo } from 'tailwindcss/colors';
 
 import wagmiConfig, { chains } from '../../lib/wagmi-config';
-// import ContextProvider from './context/provider';
+import ContextProvider from './context/provider';
 
 const Providers = ({ children }: { children: ReactNode }) => (
-  <WagmiConfig config={wagmiConfig()}>
-    <RainbowKitProvider theme={lightTheme({ accentColor: indigo[500] })} chains={chains}>
-      {children}
-    </RainbowKitProvider>
-  </WagmiConfig>
+  <ContextProvider>
+    <WagmiConfig config={wagmiConfig()}>
+      <RainbowKitProvider theme={lightTheme({ accentColor: indigo[500] })} chains={chains}>
+        {children}
+      </RainbowKitProvider>
+    </WagmiConfig>
+  </ContextProvider>
 );
 
 export default Providers;

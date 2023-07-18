@@ -6,12 +6,13 @@ import { useIsClient } from 'usehooks-ts';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useAuth, UserButton } from '@clerk/nextjs';
+import { UserButton } from '@clerk/nextjs';
 import clsx from 'clsx';
 
-const Header = () => {
+import { UserPublicMetadata } from '../../lib/types';
+
+const Header = ({ user }: { user: { publicMetadata: UserPublicMetadata } | null }) => {
   const isClient = useIsClient();
-  const { userId } = useAuth();
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
@@ -81,11 +82,18 @@ const Header = () => {
                     />
                   </div>
                 </div>
-                {isClient && userId ? (
+                {isClient && user ? (
                   <>
-                    <Link href="/creator" className="hover:underline">
-                      My page
-                    </Link>
+                    {user.publicMetadata.creatorAccount && (
+                      <Link href="/creator" className="hover:underline">
+                        My page
+                      </Link>
+                    )}
+                    {user.publicMetadata.userAccount && (
+                      <Link href="/user" className="hover:underline">
+                        My account
+                      </Link>
+                    )}
                     <UserButton />
                   </>
                 ) : (
@@ -223,7 +231,8 @@ const Header = () => {
             </div> */}
             <div className="border-t border-gray-200 pb-3 pt-4">
               <div className="flex items-center px-4">
-                <div className="flex-shrink-0">
+                <UserButton />
+                {/* <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -234,7 +243,7 @@ const Header = () => {
                   <div className="text-base font-medium text-gray-800">Tom Cook</div>
                   <div className="text-sm font-medium text-gray-500">tom@example.com</div>
                 </div>
-                {/* <button
+                <button
                   type="button"
                   className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
@@ -242,7 +251,7 @@ const Header = () => {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button> */}
               </div>
-              <div className="mt-3 space-y-1">
+              {/* <div className="mt-3 space-y-1">
                 <Disclosure.Button
                   as="a"
                   href="#"
@@ -264,7 +273,7 @@ const Header = () => {
                 >
                   Sign out
                 </Disclosure.Button>
-              </div>
+              </div> */}
             </div>
           </Disclosure.Panel>
         </>

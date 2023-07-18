@@ -7,17 +7,8 @@ module.exports = {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
     return config;
   },
-
   images: {
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
-        // pathname: '/account123/**',
-      },
-    ],
+    domains: ['res.cloudinary.com'],
   },
-
   experimental: { serverActions: true },
 };

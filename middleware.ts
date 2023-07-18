@@ -1,10 +1,16 @@
-import { NextResponse } from 'next/server';
+// import { NextResponse } from 'next/server';
 import { authMiddleware, redirectToSignIn, clerkClient } from '@clerk/nextjs';
 
-import { Membership } from './lib/types';
+// import { Membership } from './lib/types';
 
 export default authMiddleware({
-  publicRoutes: ['/'],
+  publicRoutes: [
+    '/',
+    '/api/card-preview',
+    '/api/membership-cards/:id',
+    '/api/tokens/:id.json',
+    '/creators/:name',
+  ],
   /* async afterAuth(auth, req, evt) {
     // handle users who aren't authenticated
     if (!auth.userId && !auth.isPublicRoute) {
