@@ -1,5 +1,6 @@
 import { ethers } from 'hardhat';
 import { stringToHex } from 'viem';
+import { clerkClient } from '@clerk/nextjs';
 
 import {
   rawCreatorAccountToCreatorAccount,
@@ -8,6 +9,8 @@ import {
 } from '../lib/utils';
 
 async function main() {
+  // const [signer1, signer2, signer3] = await ethers.getSigners();
+  // console.log(signer1, signer2, signer3);
   // deploy contracts
   const stableCoin = await ethers.deployContract('StableCoin');
   await stableCoin.waitForDeployment();
@@ -21,11 +24,15 @@ async function main() {
   await accounts.setTokens(tokens.target);
   //
   const [signer1, signer2, signer3] = await ethers.getSigners();
-  stableCoin.mint(signer1, 1000);
-  stableCoin.mint(signer2, 1000);
-  stableCoin.mint(signer3, 1000);
+  await stableCoin.mint(signer1, 10000);
+  if (process.env.NODE_ENV !== 'production') {
+    await stableCoin.mint(signer2, 10000);
+    await stableCoin.mint(signer3, 10000);
+  }
   //
   const name = stringToHex('tribe-diamond', { size: 32 });
+  const userId1 = 'user_2SZ0zGOcsSko6C48kfOZL25HEkS';
+  const [, userId1Raw] = userId1.split('_');
   const rawCreatorAccount = {
     name,
     title: 'Tribe Diamond',
@@ -49,27 +56,37 @@ async function main() {
       },
     },
     oboleId: BigInt(1),
-    userId: stringToHex('2SZ0zGOcsSko6C48kfOZL25HEkS', { size: 32 }),
+    userId: stringToHex(userId1Raw, { size: 32 }),
   };
-  console.log(
-    JSON.stringify({ creatorAccount: rawCreatorAccountToCreatorAccount(rawCreatorAccount) }),
-  );
+  const userCreatorAccount = rawCreatorAccountToCreatorAccount(rawCreatorAccount);
+  console.log(JSON.stringify({ creatorAccount: userCreatorAccount }));
+  await clerkClient.users.updateUserMetadata(userId1, {
+    publicMetadata: { creatorAccount: userCreatorAccount },
+  });
   await accounts.createCreatorAccount(rawCreatorAccount);
   const creatorAccount = await accounts.getCreatorAccountByName(name);
   console.log(creatorAccount);
-  const rawUserAccount = {
-    username: stringToHex('saimeunt', { size: 32 }),
-    avatarUrl: new URL('/img/creator5.jpg', baseUrl()).href,
-    interests: [0],
-    userId: stringToHex('2Sc8ytccwH2ugxoSYg0iCxb8d9n', { size: 32 }),
-  };
-  await accounts.connect(signer2).createUserAccount(rawUserAccount);
-  console.log(JSON.stringify({ userAccount: rawUserAccountToUserAccount(rawUserAccount) }));
-  const userAccount = await accounts.getUserAccountByAddress(signer2.address);
-  console.log(userAccount);
-  await tokens.connect(signer2).mintMembershipCard(name);
-  const membershipCardData = await tokens.getMembershipCardData(2);
-  console.log(membershipCardData);
+  if (process.env.NODE_ENV !== 'production') {
+    const userId2 = 'user_2Sc8ytccwH2ugxoSYg0iCxb8d9n';
+    const [, userId2Raw] = userId2.split('_');
+    const rawUserAccount = {
+      username: stringToHex('saimeunt', { size: 32 }),
+      avatarUrl: new URL('/img/creator5.jpg', baseUrl()).href,
+      interests: [0],
+      userId: stringToHex(userId2Raw, { size: 32 }),
+    };
+    await accounts.connect(signer2).createUserAccount(rawUserAccount);
+    const userUserAccount = rawUserAccountToUserAccount(rawUserAccount);
+    console.log(JSON.stringify({ userAccount: userUserAccount }));
+    await clerkClient.users.updateUserMetadata(userId2, {
+      publicMetadata: { userAccount: userUserAccount },
+    });
+    const userAccount = await accounts.getUserAccountByAddress(signer2.address);
+    console.log(userAccount);
+    await tokens.connect(signer2).mintMembershipCard(name);
+    const membershipCardData = await tokens.getMembershipCardData(2);
+    console.log(membershipCardData);
+  }
 }
 
 main().catch((error) => {

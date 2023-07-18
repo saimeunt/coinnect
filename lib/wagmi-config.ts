@@ -1,11 +1,11 @@
 import { createConfig, configureChains } from 'wagmi';
-import { hardhat, sepolia } from 'wagmi/chains';
+import { hardhat, polygonMumbai } from 'wagmi/chains';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
 
 const developmentChains = [hardhat];
-const productionChains = [sepolia];
+const productionChains = [polygonMumbai];
 
 export const chains = process.env.NODE_ENV !== 'production' ? developmentChains : productionChains;
 

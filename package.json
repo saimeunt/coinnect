@@ -13,7 +13,7 @@
     "hardhat:node": "hardhat node",
     "hardhat:compile": "hardhat compile",
     "hardhat:deploy:localhost": "hardhat run scripts/deploy.ts --network localhost",
-    "hardhat:deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
+    "hardhat:deploy:mumbai": "NODE_ENV=production hardhat run scripts/deploy.ts --network mumbai",
     "hardhat:test": "hardhat test test/test.ts",
     "hardhat:coverage": "hardhat coverage"
   },

@@ -1,7 +1,7 @@
 import { createPublicClient, http } from 'viem';
 
 const hardhat = {
-  id: 311337,
+  id: 31337,
   name: 'Hardhat',
   network: 'hardhat',
   nativeCurrency: {
@@ -19,45 +19,45 @@ const hardhat = {
   },
 };
 
-const sepolia = {
-  id: 11155111,
-  network: 'sepolia',
-  name: 'Sepolia',
+const polygonMumbai = {
+  id: 80001,
+  name: 'Polygon Mumbai',
+  network: 'maticmum',
   nativeCurrency: {
-    name: 'Sepolia Ether',
-    symbol: 'SEP',
+    name: 'MATIC',
+    symbol: 'MATIC',
     decimals: 18,
   },
   rpcUrls: {
     alchemy: {
-      http: ['https://eth-sepolia.g.alchemy.com/v2'],
-      webSocket: ['wss://eth-sepolia.g.alchemy.com/v2'],
+      http: ['https://polygon-mumbai.g.alchemy.com/v2'],
+      webSocket: ['wss://polygon-mumbai.g.alchemy.com/v2'],
     },
     infura: {
-      http: ['https://sepolia.infura.io/v3'],
-      webSocket: ['wss://sepolia.infura.io/ws/v3'],
+      http: ['https://polygon-mumbai.infura.io/v3'],
+      webSocket: ['wss://polygon-mumbai.infura.io/ws/v3'],
     },
     default: {
-      http: ['https://rpc.sepolia.org'],
+      http: ['https://matic-mumbai.chainstacklabs.com'],
     },
     public: {
-      http: ['https://rpc.sepolia.org'],
+      http: ['https://matic-mumbai.chainstacklabs.com'],
     },
   },
   blockExplorers: {
     etherscan: {
-      name: 'Etherscan',
-      url: 'https://sepolia.etherscan.io',
+      name: 'PolygonScan',
+      url: 'https://mumbai.polygonscan.com',
     },
     default: {
-      name: 'Etherscan',
-      url: 'https://sepolia.etherscan.io',
+      name: 'PolygonScan',
+      url: 'https://mumbai.polygonscan.com',
     },
   },
   contracts: {
     multicall3: {
       address: '0xca11bde05977b3631167028862be2a173976ca11' as `0x${string}`,
-      blockCreated: 6507670,
+      blockCreated: 25770160,
     },
   },
   testnet: true,
@@ -69,8 +69,8 @@ const developmentPublicClient = createPublicClient({
 });
 
 const productionPublicClient = createPublicClient({
-  chain: sepolia,
-  transport: http(process.env.NEXT_PUBLIC_ALCHEMY_SEPOLIA_URL),
+  chain: polygonMumbai,
+  transport: http(process.env.NEXT_PUBLIC_ALCHEMY_MUMBAI_URL),
 });
 
 const publicClient =
