@@ -9,10 +9,10 @@ declare namespace NodeJS {
     readonly VERCEL_GIT_COMMIT_REF: string;
     // private
     readonly ACCOUNT_PRIVATE_KEY: string;
-    readonly ETHERSCAN_API_KEY: string;
+    // readonly ETHERSCAN_API_KEY: string;
     readonly CLERK_SECRET_KEY: string;
-    readonly GOOGLE_CLIENT_ID: string;
-    readonly GOOGLE_CLIENT_SECRET: string;
+    // readonly GOOGLE_CLIENT_ID: string;
+    // readonly GOOGLE_CLIENT_SECRET: string;
     readonly WEB3_STORAGE_API_KEY: string;
     // public
     readonly NEXT_PUBLIC_DAPP_URL: string;
