@@ -40,7 +40,13 @@ const CardPreview = ({
       className={`m-4 flex items-center rounded-lg border border-${color}-200 bg-${color}-50 shadow-2xl shadow-${color}-500/50`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="h-96 w-96 rounded-l-lg" src={logoUrl} alt={`${title} logo`} />
+      <img
+        width={384}
+        height={384}
+        className="h-96 w-96 rounded-l-lg"
+        src={logoUrl}
+        alt={`${title} logo`}
+      />
       <div
         style={{ width: size.width - 384 - 32 }}
         className="flex h-96 flex-col justify-between p-4 leading-normal"
@@ -65,6 +71,8 @@ const CardPreview = ({
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              width={80}
+              height={80}
               className="ml-4 h-20 w-20 rounded-full"
               src={avatarUrl}
               alt={`${username} avatar`}
@@ -86,7 +94,7 @@ const CardPreview = ({
   </div>
 );
 
-const CardPreview2 = ({
+/* const CardPreview2 = ({
   color,
   logoUrl,
   tier,
@@ -128,8 +136,8 @@ const CardPreview2 = ({
   url.searchParams.append('description', description);
   url.searchParams.append('href', href);
   // eslint-disable-next-line @next/next/no-img-element
-  return <img className="h-[768px] w-[768px]" src={url.href} alt="Card Preview" />;
-  /* return (
+  // return <img className="h-[768px] w-[768px]" src={url.href} alt="Card Preview" />;
+  return (
     <Image
       className="h-[512px] w-[512px]"
       src={url.href}
@@ -137,7 +145,7 @@ const CardPreview2 = ({
       width={512}
       height={512}
     />
-  ); */
-};
+  );
+}; */
 
 export default CardPreview;

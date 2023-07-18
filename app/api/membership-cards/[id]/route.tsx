@@ -42,7 +42,13 @@ const CardPreview = ({
       }px] flex items-center rounded-lg border border-${color}-200 bg-${color}-50 shadow-2xl shadow-${color}-500/50`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img tw="h-96 w-96 rounded-l-lg" src={logoUrl} alt={`${title} logo`} />
+      <img
+        width={384}
+        height={384}
+        tw="h-96 w-96 rounded-l-lg"
+        src={logoUrl}
+        alt={`${title} logo`}
+      />
       <div
         tw={`flex w-[${size.width - 384 - 32}px] h-96 flex-col justify-between p-4 leading-normal`}
       >
@@ -65,7 +71,13 @@ const CardPreview = ({
               <p tw="mt-1.5 text-gray-600">{oboleBalance} $OBO</p>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img tw="ml-4 h-20 w-20 rounded-full" src={avatarUrl} alt={`${username} avatar`} />
+            <img
+              width={80}
+              height={80}
+              tw="ml-4 h-20 w-20 rounded-full"
+              src={avatarUrl}
+              alt={`${username} avatar`}
+            />
           </div>
         </div>
         <div tw="flex flex-col">

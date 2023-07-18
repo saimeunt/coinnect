@@ -28,10 +28,10 @@ async function main() {
   await accounts.setTokens(tokens.target);
   //
   const [signer1, signer2, signer3] = await ethers.getSigners();
-  await stableCoin.mint(signer1, 10000 ** 6);
+  await stableCoin.mint(signer1, BigInt('1000000000000000000000000'));
   if (process.env.NODE_ENV !== 'production') {
-    await stableCoin.mint(signer2, 10000 ** 6);
-    await stableCoin.mint(signer3, 10000 ** 6);
+    await stableCoin.mint(signer2, BigInt('1000000000000000000000000'));
+    await stableCoin.mint(signer3, BigInt('1000000000000000000000000'));
   }
   //
   const name = stringToHex('tribe-diamond', { size: 32 });
