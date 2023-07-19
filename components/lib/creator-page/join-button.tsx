@@ -31,7 +31,7 @@ const JoinButton = ({ name }: { name: string }) => {
         onClick={mintMembershipCard}
       >
         <UserPlusIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-        Join{isLoading && 'ing…'} community
+        Join{isLoading && 'ing'} community{isLoading && '…'}
       </button>
     )
   );
