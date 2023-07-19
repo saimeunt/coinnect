@@ -20,7 +20,7 @@ async function main() {
   await accounts.waitForDeployment();
   console.log(`Accounts successfully deployed to ${accounts.target}`);
   const tokens = await ethers.deployContract('Tokens', [
-    new URL('/api/tokens/{id}.json', baseUrl()).href,
+    `${baseUrl()}/api/tokens/{id}.json`,
     accounts.target,
   ]);
   await tokens.waitForDeployment();
