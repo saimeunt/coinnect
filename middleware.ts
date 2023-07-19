@@ -6,9 +6,10 @@ import { authMiddleware, redirectToSignIn, clerkClient } from '@clerk/nextjs';
 export default authMiddleware({
   publicRoutes: [
     '/',
-    '/api/card-preview',
-    '/api/membership-cards/:id',
-    '/api/tokens/:id.json',
+    // '/api/card-preview',
+    // '/api/membership-cards/:id',
+    // '/api/tokens/:id.json',
+    '/api/(.*)',
     '/creators/:name',
     '/creators/:name/about',
   ],

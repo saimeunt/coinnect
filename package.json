@@ -36,7 +36,7 @@
     ]
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.22.1",
+    "@clerk/nextjs": "4.22.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@openzeppelin/contracts": "^4.9.2",
