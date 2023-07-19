@@ -19,6 +19,7 @@ import {
   ChartBarIcon,
   CurrencyDollarIcon,
   CogIcon,
+  NewspaperIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
@@ -32,6 +33,7 @@ const icons = {
   EnvelopeOpenIcon,
   CurrencyDollarIcon,
   CogIcon,
+  NewspaperIcon,
   MagnifyingGlassIcon,
 } as const;
 
@@ -51,7 +53,7 @@ const Sidebar = ({
   const currentNav = navigation.find(({ href }) => href === pathname);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isActive = (href: string) =>
-    href === '/creator' ? pathname === href : pathname.startsWith(href);
+    href === `/${user.role}` ? pathname === href : pathname.startsWith(href);
   const navigationWithIcon = navigation.map((nav) => ({ ...nav, icon: icons[nav.icon] }));
   return (
     <div>

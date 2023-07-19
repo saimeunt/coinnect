@@ -5,7 +5,7 @@ import { getCreatorAccountByName } from '../../lib/contracts/accounts/contract';
 import { UserPrivateMetadata } from '../../lib/types';
 import PostsList from '../lib/creator-page/posts-list';
 
-const Creators = async ({ name }: { name: string }) => {
+const UserCreatorsName = async ({ name }: { name: string }) => {
   const creatorAccount = await getCreatorAccountByName(name);
   if (creatorAccount.name === '\x00') {
     notFound();
@@ -26,4 +26,4 @@ const Creators = async ({ name }: { name: string }) => {
   );
 };
 
-export default Creators;
+export default UserCreatorsName;

@@ -28,14 +28,17 @@ async function main() {
   await accounts.setTokens(tokens.target);
   //
   const [signer1, signer2, signer3] = await ethers.getSigners();
-  await stableCoin.mint(signer1, BigInt('1000000000000000000000000'));
+  await stableCoin.mint(signer1, BigInt('10000000000'));
   if (process.env.NODE_ENV !== 'production') {
-    await stableCoin.mint(signer2, BigInt('1000000000000000000000000'));
-    await stableCoin.mint(signer3, BigInt('1000000000000000000000000'));
+    await stableCoin.mint(signer2, BigInt('10000000000'));
+    await stableCoin.mint(signer3, BigInt('10000000000'));
   }
   //
   const name = stringToHex('tribe-diamond', { size: 32 });
-  const userId1 = 'user_2SZ0zGOcsSko6C48kfOZL25HEkS';
+  const userId1 =
+    process.env.NODE_ENV !== 'production'
+      ? 'user_2SZ0zGOcsSko6C48kfOZL25HEkS'
+      : 'user_2SklVwW19XjvJpFRWjTE6V5uE2J';
   const [, userId1Raw] = userId1.split('_');
   const rawCreatorAccount = {
     name,

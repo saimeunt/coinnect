@@ -14,7 +14,8 @@ const UserLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <Sidebar
       navigation={[
-        { name: 'Memberships', href: '/user', icon: 'IdentificationIcon' },
+        { name: 'My feed', href: '/user', icon: 'NewspaperIcon' },
+        { name: 'My memberships', href: '/user/creators', icon: 'IdentificationIcon' },
         { name: 'Discover', href: '/user/discover', icon: 'MagnifyingGlassIcon' },
         { name: 'Governance', href: '/user/governance', icon: 'EnvelopeOpenIcon' },
         { name: 'Settings', href: '/user/settings', icon: 'CogIcon' },

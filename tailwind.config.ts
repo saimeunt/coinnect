@@ -29,6 +29,7 @@ const config = {
     { pattern: /border-+/ },
     { pattern: /text-+/ },
     { pattern: /shadow-+/ },
+    { pattern: /ring-+/ },
   ],
 } satisfies Config;
 

@@ -1,7 +1,7 @@
-import Creators from '../../../components/creators';
+import CreatorsName from '../../../components/creators-name';
 
-const CreatorsPage = ({ params: { name } }: { params: { name: string } }) => (
-  <Creators name={name} />
+const CreatorsNamePage = ({ params: { name } }: { params: { name: string } }) => (
+  <CreatorsName name={name} />
 );
 
-export default CreatorsPage;
+export default CreatorsNamePage;

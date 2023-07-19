@@ -8,10 +8,9 @@ export const GET = async (request: NextRequest) => {
   const [, , , jsonTokenId] = request.nextUrl.pathname.split('/');
   const [tokenIdString] = jsonTokenId.split('.');
   const tokenId = BigInt(tokenIdString);
-  // const scheme = `http${process.env.NODE_ENV !== 'production' ? '' : 's'}`;
   const membershipCardUrl = new URL(
     `/api/membership-cards/${tokenId.toString().padStart(64, '0')}`,
-    baseUrl(), // `${scheme}://${process.env.VERCEL_URL}`,
+    baseUrl(),
   );
   const [
     {
@@ -24,17 +23,19 @@ export const GET = async (request: NextRequest) => {
       oboleBalance,
       title,
       description,
+      name,
     },
-    svgImageData,
+    // svgImageData,
   ] = await Promise.all([
     getMembershipCardData(tokenId),
-    fetch(membershipCardUrl.toString()).then((response) => response.text()),
+    // fetch(membershipCardUrl.toString()).then((response) => response.text()),
   ]);
   const { name: color } = colors.find(({ id }) => id === colorNumber) as {
     id: number;
     name: string;
   };
   const attributes = [
+    { trait_type: 'name', value: name },
     { trait_type: 'color', value: color },
     { trait_type: 'tier', value: tier },
     { trait_type: 'memberId', value: memberId.toString() },
@@ -43,7 +44,6 @@ export const GET = async (request: NextRequest) => {
       value: Number(subscriptionStartTimestamp),
       display_type: 'date',
     },
-
     { trait_type: 'username', value: username },
     { trait_type: 'oboleBalance', value: Number(oboleBalance), display_type: 'numeric' },
   ];
@@ -55,8 +55,10 @@ export const GET = async (request: NextRequest) => {
     });
   }
   return NextResponse.json({
-    image_data: svgImageData,
-    external_url: membershipCardUrl.toString(),
+    // image_data: svgImageData,
+    // external_url: membershipCardUrl.href,
+    image: membershipCardUrl.href,
+    external_url: new URL(`/creators/${name}`, baseUrl()).href,
     description,
     name: `${title} Membership Card #${memberId}`,
     attributes,

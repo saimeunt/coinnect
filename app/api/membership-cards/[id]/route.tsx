@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { colors } from '../../../../lib/constants';
 import { getMembershipCardData } from '../../../../lib/contracts/tokens/contract';
 
-const size = { width: 1024, height: 1024 };
+// const size = { width: 1024, height: 1024 };
 
 const CardPreview = ({
   color,
@@ -21,6 +21,7 @@ const CardPreview = ({
   title,
   description,
   name,
+  size,
 }: {
   color: string;
   logoUrl: string;
@@ -34,6 +35,7 @@ const CardPreview = ({
   title: string;
   description: string;
   name: string;
+  size: { width: number; height: number };
 }) => (
   <div tw={`flex items-center justify-center w-[${size.width}px] h-[${size.height}px] bg-slate-50`}>
     <div
@@ -93,6 +95,8 @@ const CardPreview = ({
 );
 
 export const GET = async (request: NextRequest) => {
+  const thumbnail = request.nextUrl.searchParams.get('thumbnail') === 'true';
+  const size = thumbnail ? { width: 1024, height: 384 + 32 } : { width: 1024, height: 1024 };
   const [, , , tokenIdString] = request.nextUrl.pathname.split('/');
   const tokenId = BigInt(tokenIdString);
   const {
@@ -131,6 +135,7 @@ export const GET = async (request: NextRequest) => {
       title={title}
       description={description}
       name={name}
+      size={size}
     />,
     {
       ...size,

@@ -1,4 +1,4 @@
-import UserCreatorsAbout from '../../../../../components/creators/about';
+import UserCreatorsAbout from '../../../../../components/creators-name/about';
 
 const UserCreatorsAboutPage = ({ params: { name } }: { params: { name: string } }) => (
   <UserCreatorsAbout name={name} />

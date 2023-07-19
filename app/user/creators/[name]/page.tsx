@@ -1,7 +1,7 @@
-import UserCreators from '../../../../components/user-creators';
+import UserCreatorsName from '../../../../components/user-creators-name';
 
-const UserCreatorsPage = ({ params: { name } }: { params: { name: string } }) => (
-  <UserCreators name={name} />
+const UserCreatorsNamePage = ({ params: { name } }: { params: { name: string } }) => (
+  <UserCreatorsName name={name} />
 );
 
-export default UserCreatorsPage;
+export default UserCreatorsNamePage;
