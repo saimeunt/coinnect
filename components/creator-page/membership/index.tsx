@@ -1,6 +1,6 @@
 import { currentUser } from '@clerk/nextjs';
 
-import { UserPublicMetadata } from '../../../lib/types';
+import { UserPublicMetadata, CreatorAccount } from '../../../lib/types';
 import TiersList from '../../lib/creator-page/tiers-list';
 
 const CreatorPageMembership = async () => {
@@ -12,11 +12,11 @@ const CreatorPageMembership = async () => {
   if (!publicMetadata.creatorAccount) {
     return null;
   }
-  // const creatorAccount = publicMetadata.creatorAccount as CreatorAccount;
+  const creatorAccount = publicMetadata.creatorAccount as CreatorAccount;
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <div className="mx-auto max-w-2xl">
-        <TiersList />
+        <TiersList role="creator" name={creatorAccount.name} />
       </div>
     </div>
   );
