@@ -24,6 +24,10 @@ import {
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
+import { formatCurrency } from '../../lib/utils';
+// import { useBalanceOf } from '../../lib/contracts/stablecoin/contract';
+import { useAccountBalanceOf } from './hooks';
+
 const icons = {
   ChartBarIcon,
   HomeIcon,
@@ -55,6 +59,7 @@ const Sidebar = ({
   const isActive = (href: string) =>
     href === `/${user.role}` ? pathname === href : pathname.startsWith(href);
   const navigationWithIcon = navigation.map((nav) => ({ ...nav, icon: icons[nav.icon] }));
+  const balance = useAccountBalanceOf();
   return (
     <div>
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -252,7 +257,12 @@ const Sidebar = ({
                     <UserButton />
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold">{user.fullName}</span>
-                      <span className="text-xs capitalize">{user.role}</span>
+                      <div>
+                        <span className="text-xs capitalize">{user.role}</span>
+                        <span className="ml-4 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+                          {formatCurrency(balance)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </li>

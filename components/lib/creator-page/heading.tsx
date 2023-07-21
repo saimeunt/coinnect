@@ -1,12 +1,13 @@
+'use client';
+import { useIsClient } from 'usehooks-ts';
 // import Image from 'next/image';
 
 import { CreatorAccount } from '../../../lib/types';
-import { creatorUrl } from '../../../lib/utils';
+import { useAccountBalanceOfToken } from '../../lib/hooks';
 import LinkButton from './link-button';
-import CreatePostButton from './create-post-button';
-import SharePageButton from './share-page-button';
-import JoinButton from './join-button';
-import SignUpButton from './sign-up-button';
+import CreatorToolbar from './creator-toolbar';
+import UserToolbar from './user-toolbar';
+import GuestToolbar from './guest-toolbar';
 
 const Heading = ({
   creatorAccount,
@@ -15,13 +16,14 @@ const Heading = ({
   creatorAccount: CreatorAccount;
   role: 'creator' | 'user' | 'guest';
 }) => {
-  const url = creatorUrl(creatorAccount.name);
+  const isClient = useIsClient();
+  const balance = useAccountBalanceOfToken(BigInt(creatorAccount.oboleId));
   return (
     <div>
       <div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          className="h-32 w-full object-cover lg:h-48"
+          className="h-48 w-full object-cover lg:h-64"
           src={creatorAccount.bannerUrl}
           alt={creatorAccount.title}
         />
@@ -51,24 +53,28 @@ const Heading = ({
           </div>
           <div className="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
             <div className="mt-6 min-w-0 flex-1 sm:hidden md:block">
-              <h1 className="truncate text-2xl font-bold text-gray-900">{creatorAccount.title}</h1>
-              <LinkButton host={url.host} href={url.href} pathname={url.pathname} />
+              <div className="flex items-center">
+                <h1 className="truncate text-2xl font-bold text-gray-900">
+                  {creatorAccount.title}
+                </h1>
+                {isClient && (
+                  <span className="ml-4 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+                    {balance} $OBO
+                  </span>
+                )}
+              </div>
+              <LinkButton name={creatorAccount.name} />
             </div>
             <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
-              {role === 'creator' && (
-                <>
-                  <CreatePostButton />
-                  <SharePageButton />
-                </>
-              )}
-              {role === 'user' && <JoinButton name={creatorAccount.name} />}
-              {role === 'guest' && <SignUpButton name={creatorAccount.name} />}
+              {role === 'creator' && <CreatorToolbar />}
+              {role === 'user' && <UserToolbar creatorAccount={creatorAccount} />}
+              {role === 'guest' && <GuestToolbar name={creatorAccount.name} />}
             </div>
           </div>
         </div>
         <div className="mt-6 hidden min-w-0 flex-1 sm:block md:hidden">
           <h1 className="truncate text-2xl font-bold text-gray-900">{creatorAccount.title}</h1>
-          <LinkButton host={url.host} href={url.href} pathname={url.pathname} />
+          <LinkButton name={creatorAccount.name} />
         </div>
       </div>
     </div>

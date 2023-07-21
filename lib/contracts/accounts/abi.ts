@@ -1,6 +1,16 @@
 const abi = [
   {
     inputs: [],
+    name: 'InvalidCreatorAccountError',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'InvalidUserAccountError',
+    type: 'error',
+  },
+  {
+    inputs: [],
     name: 'NotCreatorError',
     type: 'error',
   },
@@ -294,6 +304,25 @@ const abi = [
         internalType: 'struct Accounts.CreatorAccount',
         name: '',
         type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'name',
+        type: 'bytes32',
+      },
+    ],
+    name: 'getCreatorAddressByName',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
       },
     ],
     stateMutability: 'view',

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { formatUnits } from 'viem';
 
 import { baseUrl } from '../../../../lib/utils';
 import { getMembershipCardData } from '../../../../lib/contracts/tokens/contract';
@@ -17,7 +18,7 @@ export const GET = async (request: NextRequest) => {
       color: colorNumber,
       tier,
       memberId,
-      subscriptionStartTimestamp,
+      mintTimestamp,
       subscriptionEndTimestamp,
       username,
       oboleBalance,
@@ -40,12 +41,16 @@ export const GET = async (request: NextRequest) => {
     { trait_type: 'tier', value: tier },
     { trait_type: 'memberId', value: memberId.toString() },
     {
-      trait_type: 'subscriptionStartTimestamp',
-      value: Number(subscriptionStartTimestamp),
+      trait_type: 'mintTimestamp',
+      value: Number(mintTimestamp),
       display_type: 'date',
     },
     { trait_type: 'username', value: username },
-    { trait_type: 'oboleBalance', value: Number(oboleBalance), display_type: 'numeric' },
+    {
+      trait_type: 'oboleBalance',
+      value: Number(formatUnits(oboleBalance, 6)),
+      display_type: 'numeric',
+    },
   ];
   if (subscriptionEndTimestamp !== BigInt(0)) {
     attributes.push({

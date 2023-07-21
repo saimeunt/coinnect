@@ -8,8 +8,8 @@ contract StableCoin is Ownable, ERC20 {
   constructor() ERC20('USD Coin', 'USDC') {}
 
   function decimals() public pure override returns (uint8) {
-		return 6;
-	}
+    return 6;
+  }
 
   function mint(address account, uint amount) external onlyOwner {
     _mint(account, amount);

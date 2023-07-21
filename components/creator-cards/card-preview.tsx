@@ -10,7 +10,7 @@ const CardPreview = ({
   logoUrl,
   tier,
   memberId,
-  subscriptionStartTimestamp,
+  mintTimestamp,
   subscriptionEndTimestamp,
   username,
   avatarUrl,
@@ -23,7 +23,7 @@ const CardPreview = ({
   logoUrl: string;
   tier: CardTierName;
   memberId: string;
-  subscriptionStartTimestamp: number;
+  mintTimestamp: number;
   subscriptionEndTimestamp: number;
   username: string;
   avatarUrl: string;
@@ -57,8 +57,7 @@ const CardPreview = ({
               {capitalize(tier)} membership
             </p>
             <p className="text-sm text-gray-700">
-              Member #{memberId} since{' '}
-              {format(new Date(subscriptionStartTimestamp * 1000), 'MM/yyyy')}
+              Member #{memberId} since {format(new Date(mintTimestamp * 1000), 'MM/yyyy')}
               {subscriptionEndTimestamp === 0
                 ? ''
                 : ` expires ${format(new Date(subscriptionEndTimestamp * 1000), 'MM/yyyy')}`}
@@ -93,59 +92,5 @@ const CardPreview = ({
     </div>
   </div>
 );
-
-/* const CardPreview2 = ({
-  color,
-  logoUrl,
-  tier,
-  tokenId,
-  subscriptionStartTimestamp,
-  subscriptionEndTimestamp,
-  username,
-  avatarUrl,
-  oboleBalance,
-  title,
-  description,
-  href,
-}: {
-  color: string;
-  logoUrl: string;
-  tier: string;
-  tokenId: string;
-  subscriptionStartTimestamp: string;
-  subscriptionEndTimestamp: string;
-  username: string;
-  avatarUrl: string;
-  oboleBalance: string;
-  title: string;
-  description: string;
-  href: string;
-}) => {
-  const scheme = `http${process.env.NODE_ENV !== 'production' ? '' : 's'}`;
-  const url = new URL('/api/card-preview', `${scheme}://${process.env.VERCEL_URL}`);
-  url.searchParams.append('color', color);
-  url.searchParams.append('logoUrl', logoUrl);
-  url.searchParams.append('tier', tier);
-  url.searchParams.append('tokenId', tokenId);
-  url.searchParams.append('subscriptionStartTimestamp', subscriptionStartTimestamp);
-  url.searchParams.append('subscriptionEndTimestamp', subscriptionEndTimestamp);
-  url.searchParams.append('username', username);
-  url.searchParams.append('avatarUrl', avatarUrl);
-  url.searchParams.append('oboleBalance', oboleBalance);
-  url.searchParams.append('title', title);
-  url.searchParams.append('description', description);
-  url.searchParams.append('href', href);
-  // eslint-disable-next-line @next/next/no-img-element
-  // return <img className="h-[768px] w-[768px]" src={url.href} alt="Card Preview" />;
-  return (
-    <Image
-      className="h-[512px] w-[512px]"
-      src={url.href}
-      alt="Card Preview"
-      width={512}
-      height={512}
-    />
-  );
-}; */
 
 export default CardPreview;

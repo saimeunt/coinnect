@@ -60,7 +60,7 @@ const CardTier = ({
         logoUrl={logoUrl}
         tier={tier}
         memberId="1"
-        subscriptionStartTimestamp={Math.floor(Date.now() / 1000)}
+        mintTimestamp={Math.floor(Date.now() / 1000)}
         subscriptionEndTimestamp={
           tier === 'free' ? 0 : Math.floor(addYears(new Date(), 1).getTime() / 1000)
         }

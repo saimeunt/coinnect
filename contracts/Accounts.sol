@@ -44,6 +44,8 @@ contract Accounts is Ownable {
 
   error NotCreatorError();
   error NotUserError();
+  error InvalidCreatorAccountError();
+  error InvalidUserAccountError();
 
   function setTokens(address tokensAddress) external onlyOwner {
     tokens = Tokens(tokensAddress);
@@ -68,7 +70,18 @@ contract Accounts is Ownable {
     return creatorAccounts[creator];
   }
 
+  function getCreatorAddressByName(bytes32 name) external view returns (address) {
+    return creatorAddressesByName[name];
+  }
+
   function createCreatorAccount(CreatorAccount memory creatorAccount) external {
+    if (
+      creatorAccount.name == 0 ||
+      bytes(creatorAccount.title).length == 0 ||
+      creatorAccount.interests.length == 0
+    ) {
+      revert InvalidCreatorAccountError();
+    }
     creatorAccount.oboleId = tokens.getCreatorOboleId();
     creatorAccounts[msg.sender] = creatorAccount;
     creatorAddressesByName[creatorAccount.name] = msg.sender;
@@ -85,6 +98,9 @@ contract Accounts is Ownable {
   }
 
   function createUserAccount(UserAccount memory userAccount) external {
+    if (userAccount.username == 0 || userAccount.interests.length == 0) {
+      revert InvalidUserAccountError();
+    }
     userAccounts[msg.sender] = userAccount;
     userAddressesByUsername[userAccount.username] = msg.sender;
   }

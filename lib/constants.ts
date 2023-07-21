@@ -13,13 +13,13 @@ export const defaultCreatorAccount = (): CreatorAccount => ({
   name: '',
   title: '',
   description: '',
-  avatarUrl: new URL('/img/default-avatar.jpg', baseUrl()).href,
-  bannerUrl: new URL('/img/default-banner.jpg', baseUrl()).href,
+  avatarUrl: new URL('/img/creators/default/avatar.jpg', baseUrl()).href,
+  bannerUrl: new URL('/img/creators/default/banner.jpg', baseUrl()).href,
   interests: [],
   cards: {
-    free: { logoUrl: new URL('/img/default-avatar.jpg', baseUrl()).href, color: 0 },
-    standard: { logoUrl: new URL('/img/default-avatar.jpg', baseUrl()).href, color: 5 },
-    premium: { logoUrl: new URL('/img/default-avatar.jpg', baseUrl()).href, color: 10 },
+    free: { logoUrl: new URL('/img/creators/default/free.jpg', baseUrl()).href, color: 0 },
+    standard: { logoUrl: new URL('/img/creators/default/standard.jpg', baseUrl()).href, color: 5 },
+    premium: { logoUrl: new URL('/img/creators/default/premium.jpg', baseUrl()).href, color: 10 },
   },
   oboleId: 0,
   userId: '',
@@ -27,7 +27,7 @@ export const defaultCreatorAccount = (): CreatorAccount => ({
 
 export const defaultUserAccount = (): UserAccount => ({
   username: '',
-  avatarUrl: new URL('/img/default-avatar.jpg', baseUrl()).href,
+  avatarUrl: new URL('/img/creator5.jpg', baseUrl()).href,
   interests: [],
   userId: '',
 });

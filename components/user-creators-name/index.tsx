@@ -3,7 +3,7 @@ import { clerkClient } from '@clerk/nextjs';
 
 import { getCreatorAccountByName } from '../../lib/contracts/accounts/contract';
 import { UserPrivateMetadata } from '../../lib/types';
-import PostsList from '../lib/creator-page/posts-list';
+import UserPostsList from './user-posts-list';
 
 const UserCreatorsName = async ({ name }: { name: string }) => {
   const creatorAccount = await getCreatorAccountByName(name);
@@ -16,9 +16,9 @@ const UserCreatorsName = async ({ name }: { name: string }) => {
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <div className="mx-auto max-w-2xl py-8">
-        <PostsList
+        <UserPostsList
           creatorAccount={creatorAccount}
-          posts={posts.filter(({ tier }) => tier === 'public')}
+          posts={posts}
           user={{ fullName: `${user.firstName} ${user.lastName}` }}
         />
       </div>

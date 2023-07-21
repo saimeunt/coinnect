@@ -1,7 +1,7 @@
 import { currentUser } from '@clerk/nextjs';
 
 import { UserPublicMetadata } from '../../../lib/types';
-import TiersList from './tiers-list';
+import TiersList from '../../lib/creator-page/tiers-list';
 
 const CreatorPageMembership = async () => {
   const user = await currentUser();

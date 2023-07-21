@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getCreatorAccountByName } from '../../../lib/contracts/accounts/contract';
 import AboutDescription from '../../lib/creator-page/about-description';
 
-const CreatorsAbout = async ({ name }: { name: string }) => {
+const CreatorsNameAbout = async ({ name }: { name: string }) => {
   const creatorAccount = await getCreatorAccountByName(name);
   if (creatorAccount.name === '\x00') {
     notFound();
@@ -19,4 +19,4 @@ const CreatorsAbout = async ({ name }: { name: string }) => {
   );
 };
 
-export default CreatorsAbout;
+export default CreatorsNameAbout;

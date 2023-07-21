@@ -17,17 +17,16 @@ export const getNftsForOwner = async (address: `0x${string}`) => {
         },
         tokenId: '2',
         tokenType: NftTokenType.ERC1155,
-        title: 'Tribe Diamond Membership Card #1',
+        title: 'Epic Rabbits Membership Card #1',
         description: '',
         timeLastUpdated: new Date().toISOString(),
-        metadataError: 'Token metadata too large, do not retry',
+        metadataError: undefined,
         rawMetadata: {
-          metadata: [],
           attributes: [
-            { trait_type: 'name', value: 'tribe-diamond' },
+            { trait_type: 'name', value: 'epic-rabbits' },
             { trait_type: 'color', value: 'red' },
             { trait_type: 'tier', value: 'free' },
-            { trait_type: 'oboleBalance', value: 0, display_type: 'numeric' },
+            { trait_type: 'oboleBalance', value: 100, display_type: 'numeric' },
           ],
         },
         tokenUri: {
@@ -47,8 +46,11 @@ export const getNftsForOwner = async (address: `0x${string}`) => {
   }*/
   const { ownedNfts } = await alchemy.nft.getNftsForOwner(address, {
     contractAddresses: [process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS],
-    omitMetadata: true,
   });
+  /* const { ownedNfts } = await alchemy.nft.getNftsForOwner(
+    '0x6cfFC3A3c6E609C8488E02bB72ea0F706dD092A9',
+    { contractAddresses: ['0xeb9bc6bcad612fd5caf1ca8406d746cc02e675d9'] },
+  ); */
   return ownedNfts;
 };
 

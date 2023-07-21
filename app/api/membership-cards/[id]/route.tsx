@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import satori from 'satori';
 import { capitalize } from 'lodash';
 import { format } from 'date-fns';
+import { formatUnits } from 'viem';
 
 import { colors } from '../../../../lib/constants';
 import { getMembershipCardData } from '../../../../lib/contracts/tokens/contract';
@@ -13,7 +14,7 @@ const CardPreview = ({
   logoUrl,
   tier,
   memberId,
-  subscriptionStartTimestamp,
+  mintTimestamp,
   subscriptionEndTimestamp,
   username,
   avatarUrl,
@@ -27,7 +28,7 @@ const CardPreview = ({
   logoUrl: string;
   tier: string;
   memberId: string;
-  subscriptionStartTimestamp: number;
+  mintTimestamp: number;
   subscriptionEndTimestamp: number;
   username: string;
   avatarUrl: string;
@@ -60,8 +61,7 @@ const CardPreview = ({
               {capitalize(tier)} membership
             </p>
             <p tw="mt-0.5 text-sm text-gray-700">
-              Member #{memberId} since{' '}
-              {format(new Date(subscriptionStartTimestamp * 1000), 'MM/yyyy')}
+              Member #{memberId} since {format(new Date(mintTimestamp * 1000), 'MM/yyyy')}
               {subscriptionEndTimestamp === 0
                 ? ''
                 : ` expires ${format(new Date(subscriptionEndTimestamp * 1000), 'MM/yyyy')}`}
@@ -104,7 +104,7 @@ export const GET = async (request: NextRequest) => {
     logoUrl,
     tier,
     memberId,
-    subscriptionStartTimestamp,
+    mintTimestamp,
     subscriptionEndTimestamp,
     username,
     avatarUrl,
@@ -127,11 +127,11 @@ export const GET = async (request: NextRequest) => {
       logoUrl={logoUrl}
       tier={tier}
       memberId={memberId.toString()}
-      subscriptionStartTimestamp={Number(subscriptionStartTimestamp)}
+      mintTimestamp={Number(mintTimestamp)}
       subscriptionEndTimestamp={Number(subscriptionEndTimestamp)}
       username={username}
       avatarUrl={avatarUrl}
-      oboleBalance={oboleBalance.toString()}
+      oboleBalance={formatUnits(oboleBalance, 9)}
       title={title}
       description={description}
       name={name}

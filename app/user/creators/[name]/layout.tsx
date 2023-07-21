@@ -3,8 +3,9 @@ import { ReactNode } from 'react';
 import { getCreatorAccountByName } from '../../../../lib/contracts/accounts/contract';
 import Heading from '../../../../components/lib/creator-page/heading';
 import Tabs from '../../../../components/lib/tabs';
+import DonateModal from '../../../../components/lib/creator-page/donate-modal';
 
-const UserCreatorsPageLayout = async ({
+const UserCreatorsNamePageLayout = async ({
   params: { name },
   children,
 }: {
@@ -19,15 +20,16 @@ const UserCreatorsPageLayout = async ({
         <Tabs
           tabs={[
             { name: 'Home', href: `/user/creators/${name}` },
-            // { name: 'Membership', href: '/creator/page/membership' },
+            { name: 'Membership', href: `/user/creators/${name}/membership` },
             { name: 'About', href: `/user/creators/${name}/about` },
           ]}
           centered
         />
       </div>
       {children}
+      <DonateModal name={name} />
     </>
   );
 };
 
-export default UserCreatorsPageLayout;
+export default UserCreatorsNamePageLayout;

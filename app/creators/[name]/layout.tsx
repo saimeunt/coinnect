@@ -4,7 +4,7 @@ import { getCreatorAccountByName } from '../../../lib/contracts/accounts/contrac
 import Heading from '../../../components/lib/creator-page/heading';
 import Tabs from '../../../components/lib/tabs';
 
-const CreatorsPageLayout = async ({
+const CreatorsNamePageLayout = async ({
   params: { name },
   children,
 }: {
@@ -30,4 +30,4 @@ const CreatorsPageLayout = async ({
   );
 };
 
-export default CreatorsPageLayout;
+export default CreatorsNamePageLayout;

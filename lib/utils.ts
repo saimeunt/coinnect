@@ -1,4 +1,5 @@
 import { hexToString, stringToHex } from 'viem';
+import { OwnedNft } from 'alchemy-sdk';
 
 import {
   RawCreatorAccount,
@@ -7,6 +8,8 @@ import {
   MembershipCardData,
   RawUserAccount,
   UserAccount,
+  MembershipCardNft,
+  CardTierName,
 } from './types';
 import { defaultCreatorAccount } from './constants';
 
@@ -14,6 +17,14 @@ export const baseUrl = () =>
   process.env.NODE_ENV !== 'production'
     ? 'http://localhost:3000'
     : process.env.NEXT_PUBLIC_DAPP_URL;
+
+export const formatCurrency = (amount: number) =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
+    .format(amount)
+    .replace(/(\.|,)00$/g, '');
 
 export const rawCreatorAccountToCreatorAccount = (
   rawCreatorAccount: RawCreatorAccount,
@@ -85,26 +96,62 @@ export const userAccountToRawUserAccount = (userAccount: UserAccount): RawUserAc
   userId: stringToHex(userAccount.userId, { size: 32 }),
 });
 
-export const creatorUrl = (name: string) => {
-  // const scheme = `http${process.env.NODE_ENV !== 'production' ? '' : 's'}`;
-  // return new URL(`/creators/${name}`, `${scheme}://${process.env.VERCEL_URL}`);
-  return new URL(`/creators/${name}`, baseUrl());
+export const ownedNftToMembershipCardNft = (ownedNft: OwnedNft): MembershipCardNft => {
+  const nameAttribute = ownedNft.rawMetadata?.attributes?.find(
+    ({ trait_type }) => trait_type === 'name',
+  );
+  const name = nameAttribute ? (nameAttribute.value as string) : '';
+  const colorAttribute = ownedNft.rawMetadata?.attributes?.find(
+    ({ trait_type }) => trait_type === 'color',
+  );
+  const colorRaw = colorAttribute ? (colorAttribute.value as string) : 'Red';
+  const color = colorRaw.toLowerCase();
+  const tierAttribute = ownedNft.rawMetadata?.attributes?.find(
+    ({ trait_type }) => trait_type === 'tier',
+  );
+  const tier = tierAttribute ? (tierAttribute.value as CardTierName) : 'free';
+  const oboleBalanceAttribute = ownedNft.rawMetadata?.attributes?.find(
+    ({ trait_type }) => trait_type === 'oboleBalance',
+  );
+  const oboleBalance = oboleBalanceAttribute ? (oboleBalanceAttribute.value as number) : 0;
+  const subscriptionEndTimestampAttribute = ownedNft.rawMetadata?.attributes?.find(
+    ({ trait_type }) => trait_type === 'subscriptionEndTimestamp',
+  );
+  const subscriptionEndTimestamp = subscriptionEndTimestampAttribute
+    ? (subscriptionEndTimestampAttribute.value as number)
+    : 0;
+  return {
+    tokenId: ownedNft.tokenId,
+    title: ownedNft.title,
+    name,
+    tier,
+    color,
+    oboleBalance,
+    subscriptionEndTimestamp,
+  };
 };
 
 export const defaultPosts = () => [
   {
     videoUrl: 'https://www.youtube.com/watch?v=S1Mvy3E8P2U',
-    title: 'First live',
+    title: 'Intro live',
     description: 'This is the intro live of the channel, check it out!',
     tier: 'public',
     date: new Date('2023-07-03').toISOString(),
   },
   {
     videoUrl: 'https://www.youtube.com/watch?v=WRWtvbyprgo',
-    title: 'Second live',
+    title: 'Free live',
     description: 'Talking about my favorite musicians.',
     tier: 'free',
     date: new Date('2023-07-10').toISOString(),
+  },
+  {
+    videoUrl: 'https://www.youtube.com/watch?v=Pf_si60K9nM',
+    title: 'Standard live',
+    description: 'AMA with the community.',
+    tier: 'standard',
+    date: new Date('2023-07-17').toISOString(),
   },
 ];
 

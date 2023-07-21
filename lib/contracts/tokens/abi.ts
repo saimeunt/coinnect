@@ -8,12 +8,28 @@ const abi = [
       },
       {
         internalType: 'address',
+        name: 'stableCoinAddress',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
         name: 'accountsAddress',
         type: 'address',
       },
     ],
     stateMutability: 'nonpayable',
     type: 'constructor',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'InvalidAmountError',
+    type: 'error',
   },
   {
     inputs: [
@@ -29,12 +45,45 @@ const abi = [
   {
     inputs: [
       {
+        internalType: 'bytes32',
+        name: 'tier',
+        type: 'bytes32',
+      },
+    ],
+    name: 'InvalidTierError',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'tokenId',
+        type: 'uint256',
+      },
+    ],
+    name: 'InvalidTokenIdError',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
         internalType: 'address',
         name: 'userAddress',
         type: 'address',
       },
     ],
     name: 'InvalidUserAddressError',
+    type: 'error',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
+    name: 'NotAMemberError',
     type: 'error',
   },
   {
@@ -213,6 +262,37 @@ const abi = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'creatorName',
+        type: 'bytes32',
+      },
+    ],
+    name: 'claimRewards',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'creatorName',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'donate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'getCreatorOboleId',
     outputs: [
@@ -254,7 +334,7 @@ const abi = [
           },
           {
             internalType: 'uint256',
-            name: 'subscriptionStartTimestamp',
+            name: 'mintTimestamp',
             type: 'uint256',
           },
           {
@@ -347,6 +427,30 @@ const abi = [
     inputs: [
       {
         internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'creatorName',
+        type: 'bytes32',
+      },
+    ],
+    name: 'rewardsAmount',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
         name: 'from',
         type: 'address',
       },
@@ -430,6 +534,29 @@ const abi = [
   {
     inputs: [
       {
+        internalType: 'bytes32',
+        name: 'creatorName',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'tier',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'enum Tokens.SubscriptionDuration',
+        name: 'subscriptionDuration',
+        type: 'uint8',
+      },
+    ],
+    name: 'subscribe',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'bytes4',
         name: 'interfaceId',
         type: 'bytes4',
@@ -463,6 +590,13 @@ const abi = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'withdraw',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
 ] as const;

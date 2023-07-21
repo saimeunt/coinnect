@@ -1,4 +1,16 @@
-// type ObjectValues<T> = T[keyof T];
+type ObjectValues<T> = T[keyof T];
+
+export const SubscriptionDurations = {
+  None: 0,
+  Months1: 1,
+  Months3: 2,
+  Months6: 3,
+  Months12: 4,
+} as const;
+
+export type SubscriptionDuration = ObjectValues<typeof SubscriptionDurations>;
+
+export type SubscriptionDurationName = keyof typeof SubscriptionDurations;
 
 type RawCardTier = { logoUrl: string; color: number };
 
@@ -39,7 +51,7 @@ export type RawMembershipCardData = {
   logoUrl: string;
   tier: `0x${string}`;
   memberId: bigint;
-  subscriptionStartTimestamp: bigint;
+  mintTimestamp: bigint;
   subscriptionEndTimestamp: bigint;
   username: `0x${string}`;
   avatarUrl: string;
@@ -54,7 +66,7 @@ export type MembershipCardData = {
   logoUrl: string;
   tier: string;
   memberId: bigint;
-  subscriptionStartTimestamp: bigint;
+  mintTimestamp: bigint;
   subscriptionEndTimestamp: bigint;
   username: string;
   avatarUrl: string;
@@ -62,6 +74,16 @@ export type MembershipCardData = {
   title: string;
   description: string;
   name: string;
+};
+
+export type MembershipCardNft = {
+  tokenId: string;
+  title: string;
+  name: string;
+  tier: CardTierName;
+  color: string;
+  oboleBalance: number;
+  subscriptionEndTimestamp: number;
 };
 
 export type RawUserAccount = {
