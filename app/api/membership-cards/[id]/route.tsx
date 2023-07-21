@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { formatUnits } from 'viem';
 
 import { colors } from '../../../../lib/constants';
-import { getMembershipCardData } from '../../../../lib/contracts/tokens/contract';
+import { getTokenData } from '../../../../lib/contracts/tokens/contract';
 
 // const size = { width: 1024, height: 1024 };
 
@@ -112,7 +112,7 @@ export const GET = async (request: NextRequest) => {
     title,
     description,
     name,
-  } = await getMembershipCardData(tokenId);
+  } = await getTokenData(tokenId);
   const { name: color } = colors.find(({ id }) => id === colorNumber) as {
     id: number;
     name: string;

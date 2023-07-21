@@ -35,7 +35,8 @@ contract Tokens is ERC1155 {
   }
   mapping(bytes32 => uint) tierPrices;
   mapping(bytes32 => mapping(SubscriptionDuration => uint24)) tierRewards;
-  struct MembershipCardData {
+  struct TokenData {
+    uint8 color;
     string logoUrl;
     bytes32 tier;
     uint memberId;
@@ -47,7 +48,6 @@ contract Tokens is ERC1155 {
     string title;
     string description;
     bytes32 name;
-    uint8 color;
   }
   StableCoin stableCoin;
   mapping(address => uint) balances;
@@ -59,6 +59,7 @@ contract Tokens is ERC1155 {
   error InvalidAmountError(uint amount);
   error InvalidTokenIdError(uint tokenId);
   error InvalidTierError(bytes32 tier);
+  error AlreadyMemberError();
   error NotAMemberError(address account);
 
   constructor(string memory uri, address stableCoinAddress, address accountsAddress) ERC1155(uri) {
@@ -111,6 +112,11 @@ contract Tokens is ERC1155 {
       revert InvalidUserAddressError(msg.sender);
     }
     //
+    uint membershipCardTokenId = getMembershipCardTokenId(msg.sender, creatorName);
+    if (membershipCardTokenId != 0 ){
+      revert AlreadyMemberError();
+    }
+    //
     Counters.Counter storage counter = membershipCardsCounters[creatorName];
     counter.increment();
     uint memberId = counter.current();
@@ -140,11 +146,7 @@ contract Tokens is ERC1155 {
     }
   }
 
-  function getMembershipCardData(uint tokenId) external view returns (MembershipCardData memory) {
-    MembershipCard storage membershipCard = membershipCards[tokenId];
-    if (membershipCard.creatorName == 0) {
-      revert InvalidTokenIdError(tokenId);
-    }
+  function getMembershipCardData(MembershipCard memory membershipCard) internal view returns (TokenData memory) {
     Accounts.CreatorAccount memory creatorAccount = accounts.getCreatorAccountByName(
       membershipCard.creatorName
     );
@@ -160,7 +162,7 @@ contract Tokens is ERC1155 {
     uint oboleBalance = balanceOf(membershipCard.userAddress, creatorAccount.oboleId);
     Accounts.CardTier memory cardTier = getCardTier(creatorAccount, membershipCard.tier);
     return
-      MembershipCardData({
+      TokenData({
         color: cardTier.color,
         logoUrl: cardTier.logoUrl,
         tier: membershipCard.tier,
@@ -174,6 +176,38 @@ contract Tokens is ERC1155 {
         description: creatorAccount.description,
         name: membershipCard.creatorName
       });
+  }
+
+  function getOboleData(Accounts.CreatorAccount memory creatorAccount) internal pure returns (TokenData memory) {
+    return
+      TokenData({
+        color: 0,
+        logoUrl: creatorAccount.avatarUrl,
+        tier: 0,
+        memberId: 0,
+        mintTimestamp: 0,
+        subscriptionEndTimestamp: 0,
+        username: creatorAccount.name,
+        avatarUrl: creatorAccount.avatarUrl,
+        oboleBalance: 0,
+        title: creatorAccount.title,
+        description: creatorAccount.description,
+        name: creatorAccount.name
+      });
+  }
+
+  function getTokenData(uint tokenId) external view returns (TokenData memory) {
+    MembershipCard memory membershipCard = membershipCards[tokenId];
+    if (membershipCard.creatorName == 0) {
+      Accounts.CreatorAccount memory creatorAccount = accounts.getCreatorAccountByOboleId(
+        tokenId
+      );
+      if (creatorAccount.name == 0) {
+        revert InvalidTokenIdError(tokenId);
+      }
+      return getOboleData(creatorAccount);
+    }
+    return getMembershipCardData(membershipCard);
   }
 
   function donate(bytes32 creatorName, uint amount) external {

@@ -30,6 +30,7 @@ contract Accounts is Ownable {
   }
   mapping(address => CreatorAccount) creatorAccounts;
   mapping(bytes32 => address) creatorAddressesByName;
+  mapping(uint => address) creatorAddressesByOboleId;
 
   struct UserAccount {
     bytes32 username;
@@ -70,6 +71,11 @@ contract Accounts is Ownable {
     return creatorAccounts[creator];
   }
 
+  function getCreatorAccountByOboleId(uint oboleId) external view returns (CreatorAccount memory) {
+    address creator = creatorAddressesByOboleId[oboleId];
+    return creatorAccounts[creator];
+  }
+
   function getCreatorAddressByName(bytes32 name) external view returns (address) {
     return creatorAddressesByName[name];
   }
@@ -85,6 +91,7 @@ contract Accounts is Ownable {
     creatorAccount.oboleId = tokens.getCreatorOboleId();
     creatorAccounts[msg.sender] = creatorAccount;
     creatorAddressesByName[creatorAccount.name] = msg.sender;
+    creatorAddressesByOboleId[creatorAccount.oboleId] = msg.sender;
   }
 
   function updateCreatorAccount(

@@ -21,6 +21,11 @@ const abi = [
     type: 'constructor',
   },
   {
+    inputs: [],
+    name: 'AlreadyMemberError',
+    type: 'error',
+  },
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -313,10 +318,15 @@ const abi = [
         type: 'uint256',
       },
     ],
-    name: 'getMembershipCardData',
+    name: 'getTokenData',
     outputs: [
       {
         components: [
+          {
+            internalType: 'uint8',
+            name: 'color',
+            type: 'uint8',
+          },
           {
             internalType: 'string',
             name: 'logoUrl',
@@ -372,13 +382,8 @@ const abi = [
             name: 'name',
             type: 'bytes32',
           },
-          {
-            internalType: 'uint8',
-            name: 'color',
-            type: 'uint8',
-          },
         ],
-        internalType: 'struct Tokens.MembershipCardData',
+        internalType: 'struct Tokens.TokenData',
         name: '',
         type: 'tuple',
       },

@@ -126,7 +126,7 @@ async function main() {
     console.log(userAccount);
     const tx3 = await tokens.connect(signer2).mintMembershipCard(name1);
     await tx3.wait();
-    const membershipCardData = await tokens.getMembershipCardData(BigInt(2));
+    const membershipCardData = await tokens.getTokenData(BigInt(2));
     console.log(membershipCardData);
     const uri = await tokens.uri(BigInt(2));
     console.log(uri);

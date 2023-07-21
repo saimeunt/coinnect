@@ -312,6 +312,125 @@ const abi = [
   {
     inputs: [
       {
+        internalType: 'uint256',
+        name: 'oboleId',
+        type: 'uint256',
+      },
+    ],
+    name: 'getCreatorAccountByOboleId',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'bytes32',
+            name: 'name',
+            type: 'bytes32',
+          },
+          {
+            internalType: 'string',
+            name: 'title',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'description',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'avatarUrl',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'bannerUrl',
+            type: 'string',
+          },
+          {
+            internalType: 'uint8[]',
+            name: 'interests',
+            type: 'uint8[]',
+          },
+          {
+            components: [
+              {
+                components: [
+                  {
+                    internalType: 'uint8',
+                    name: 'color',
+                    type: 'uint8',
+                  },
+                  {
+                    internalType: 'string',
+                    name: 'logoUrl',
+                    type: 'string',
+                  },
+                ],
+                internalType: 'struct Accounts.CardTier',
+                name: 'free',
+                type: 'tuple',
+              },
+              {
+                components: [
+                  {
+                    internalType: 'uint8',
+                    name: 'color',
+                    type: 'uint8',
+                  },
+                  {
+                    internalType: 'string',
+                    name: 'logoUrl',
+                    type: 'string',
+                  },
+                ],
+                internalType: 'struct Accounts.CardTier',
+                name: 'standard',
+                type: 'tuple',
+              },
+              {
+                components: [
+                  {
+                    internalType: 'uint8',
+                    name: 'color',
+                    type: 'uint8',
+                  },
+                  {
+                    internalType: 'string',
+                    name: 'logoUrl',
+                    type: 'string',
+                  },
+                ],
+                internalType: 'struct Accounts.CardTier',
+                name: 'premium',
+                type: 'tuple',
+              },
+            ],
+            internalType: 'struct Accounts.Cards',
+            name: 'cards',
+            type: 'tuple',
+          },
+          {
+            internalType: 'uint256',
+            name: 'oboleId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'bytes32',
+            name: 'userId',
+            type: 'bytes32',
+          },
+        ],
+        internalType: 'struct Accounts.CreatorAccount',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'bytes32',
         name: 'name',
         type: 'bytes32',

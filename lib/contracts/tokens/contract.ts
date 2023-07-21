@@ -3,7 +3,7 @@ import { getContract, stringToHex } from 'viem';
 
 import abi from './abi';
 import publicClient from '../../public-client';
-import { rawMembershipCardDataToMembershipCardData } from '../../utils';
+import { rawTokenDataToTokenData } from '../../utils';
 import { SubscriptionDuration } from '../../types';
 
 const tokensContract = getContract({
@@ -12,9 +12,9 @@ const tokensContract = getContract({
   publicClient,
 });
 
-export const getMembershipCardData = async (tokenId: bigint) => {
-  const rawMembershipCardData = await tokensContract.read.getMembershipCardData([tokenId]);
-  return rawMembershipCardDataToMembershipCardData(rawMembershipCardData);
+export const getTokenData = async (tokenId: bigint) => {
+  const rawMembershipCardData = await tokensContract.read.getTokenData([tokenId]);
+  return rawTokenDataToTokenData(rawMembershipCardData);
 };
 
 export const useBalanceOfToken = (account: `0x${string}`, id: bigint) =>

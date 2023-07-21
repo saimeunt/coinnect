@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { formatUnits } from 'viem';
 
 import { baseUrl } from '../../../../lib/utils';
-import { getMembershipCardData } from '../../../../lib/contracts/tokens/contract';
+import { getTokenData } from '../../../../lib/contracts/tokens/contract';
 import { colors } from '../../../../lib/constants';
 
 export const GET = async (request: NextRequest) => {
@@ -13,24 +13,26 @@ export const GET = async (request: NextRequest) => {
     `/api/membership-cards/${tokenId.toString().padStart(64, '0')}`,
     baseUrl(),
   );
-  const [
-    {
-      color: colorNumber,
-      tier,
-      memberId,
-      mintTimestamp,
-      subscriptionEndTimestamp,
-      username,
-      oboleBalance,
-      title,
+  const {
+    color: colorNumber,
+    tier,
+    memberId,
+    mintTimestamp,
+    subscriptionEndTimestamp,
+    username,
+    oboleBalance,
+    title,
+    description,
+    name,
+  } = await getTokenData(tokenId);
+  if (memberId === BigInt(0)) {
+    return NextResponse.json({
+      image: new URL('/img/obole.jpg', baseUrl()).href,
+      external_url: new URL(`/creators/${name}`, baseUrl()).href,
       description,
-      name,
-    },
-    // svgImageData,
-  ] = await Promise.all([
-    getMembershipCardData(tokenId),
-    // fetch(membershipCardUrl.toString()).then((response) => response.text()),
-  ]);
+      name: `${title} Obole`,
+    });
+  }
   const { name: color } = colors.find(({ id }) => id === colorNumber) as {
     id: number;
     name: string;

@@ -38,18 +38,12 @@ export const getNftsForOwner = async (address: `0x${string}`) => {
       },
     ];
   }
-  /*{
-    contract: { address: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0' },
-    tokenId: '2',
-    tokenType: 'UNKNOWN',
-    balance: 1
-  }*/
   const { ownedNfts } = await alchemy.nft.getNftsForOwner(address, {
     contractAddresses: [process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS],
   });
   /* const { ownedNfts } = await alchemy.nft.getNftsForOwner(
     '0x6cfFC3A3c6E609C8488E02bB72ea0F706dD092A9',
-    { contractAddresses: ['0xeb9bc6bcad612fd5caf1ca8406d746cc02e675d9'] },
+    { contractAddresses: ['0xEBb37E46Fc0495e42eD43D5fc3FADFF49513ced8'] },
   ); */
   return ownedNfts;
 };

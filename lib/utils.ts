@@ -4,8 +4,8 @@ import { OwnedNft } from 'alchemy-sdk';
 import {
   RawCreatorAccount,
   CreatorAccount,
-  RawMembershipCardData,
-  MembershipCardData,
+  RawTokenData,
+  TokenData,
   RawUserAccount,
   UserAccount,
   MembershipCardNft,
@@ -74,14 +74,12 @@ export const creatorAccountToRawCreatorAccount = (
   }, */
 });
 
-export const rawMembershipCardDataToMembershipCardData = (
-  rawMembershipCardData: RawMembershipCardData,
-): MembershipCardData => ({
-  ...rawMembershipCardData,
+export const rawTokenDataToTokenData = (rawTokenData: RawTokenData): TokenData => ({
+  ...rawTokenData,
   // color: hexToString(rawMembershipCardData.color, { size: 32 }),
-  tier: hexToString(rawMembershipCardData.tier, { size: 32 }),
-  username: hexToString(rawMembershipCardData.username, { size: 32 }),
-  name: hexToString(rawMembershipCardData.name, { size: 32 }),
+  tier: hexToString(rawTokenData.tier, { size: 32 }),
+  username: hexToString(rawTokenData.username, { size: 32 }),
+  name: hexToString(rawTokenData.name, { size: 32 }),
 });
 
 export const rawUserAccountToUserAccount = (rawUserAccount: RawUserAccount): UserAccount => ({

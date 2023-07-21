@@ -46,7 +46,7 @@ export type CreatorAccount = {
   userId: string;
 };
 
-export type RawMembershipCardData = {
+export type RawTokenData = {
   color: number;
   logoUrl: string;
   tier: `0x${string}`;
@@ -61,7 +61,7 @@ export type RawMembershipCardData = {
   name: `0x${string}`;
 };
 
-export type MembershipCardData = {
+export type TokenData = {
   color: number;
   logoUrl: string;
   tier: string;

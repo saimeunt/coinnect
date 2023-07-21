@@ -61,7 +61,7 @@ export const useMembershipCards = () => {
       return;
     }
     getNftsForOwner(address).then((data) => {
-      setData(data.map(ownedNftToMembershipCardNft));
+      setData(data.filter(({ balance }) => balance === 1).map(ownedNftToMembershipCardNft));
       setLoading(false);
     });
   }, [address]);

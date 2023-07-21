@@ -20,7 +20,9 @@ const MembershipCard = ({
           className="pointer-events-none object-cover group-hover:opacity-75"
         />
       </div>
-      <div className="flex items-center justify-between">
+    </Link>
+    <div className="flex items-center justify-between">
+      <Link href={`/user/creators/${name}`}>
         <div>
           <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
             {title}
@@ -36,20 +38,20 @@ const MembershipCard = ({
             </span>
           </p>
         </div>
-        <a
-          href={
-            new URL(
-              `/assets/mumbai/${process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS}/${tokenId}`,
-              'https://testnets.opensea.io',
-            ).href
-          }
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image src="/img/opensea.svg" width={32} height={32} className="h-8 w-8" alt="" />
-        </a>
-      </div>
-    </Link>
+      </Link>
+      <a
+        href={
+          new URL(
+            `/assets/mumbai/${process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS}/${tokenId}`,
+            'https://testnets.opensea.io',
+          ).href
+        }
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Image src="/img/opensea.svg" width={32} height={32} className="h-8 w-8" alt="" />
+      </a>
+    </div>
   </li>
 );
 

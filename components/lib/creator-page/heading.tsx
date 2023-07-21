@@ -57,7 +57,7 @@ const Heading = ({
                 <h1 className="truncate text-2xl font-bold text-gray-900">
                   {creatorAccount.title}
                 </h1>
-                {isClient && (
+                {isClient && role === 'user' && (
                   <span className="ml-4 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
                     {balance} $OBO
                   </span>
