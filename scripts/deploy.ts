@@ -32,12 +32,22 @@ async function main() {
   console.log('accounts.setTokens');
   //
   const [signer1, signer2, signer3] = await ethers.getSigners();
-  await stableCoin.mint(signer1, parseUnits('10000', 6));
-  console.log('stableCoin.mint');
-  if (process.env.NODE_ENV !== 'production') {
-    await stableCoin.mint(signer2, parseUnits('10000', 6));
-    await stableCoin.mint(signer3, parseUnits('10000', 6));
-  }
+  await stableCoin.mint(signer1.address, parseUnits('10000', 6));
+  console.log('stableCoin.mint signer1');
+  await stableCoin.mint(
+    process.env.NODE_ENV !== 'production'
+      ? signer2.address
+      : '0x84F57E38f70cBFB90879044E43d338D03DBfc8ad',
+    parseUnits('10000', 6),
+  );
+  console.log('stableCoin.mint signer2');
+  await stableCoin.mint(
+    process.env.NODE_ENV !== 'production'
+      ? signer3.address
+      : '0x06f4bB5595eF7BAeA4F00Ac0Ed3E262284228a41',
+    parseUnits('10000', 6),
+  );
+  console.log('stableCoin.mint signer3');
   //
   const userId1 =
     process.env.NODE_ENV !== 'production'

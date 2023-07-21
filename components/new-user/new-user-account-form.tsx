@@ -8,14 +8,16 @@ import { createUserAccount } from '../../lib/actions';
 import { interests } from '../../lib/constants';
 
 const avatars = [
-  { id: '/img/creator1.jpg', name: 'Avatar 1' },
-  { id: '/img/creator2.jpg', name: 'Avatar 2' },
-  { id: '/img/creator3.jpg', name: 'Avatar 3' },
-  { id: '/img/creator4.jpg', name: 'Avatar 4' },
-  { id: '/img/creator5.jpg', name: 'Avatar 5' },
-  { id: '/img/creator6.jpg', name: 'Avatar 6' },
-  { id: '/img/creator7.jpg', name: 'Avatar 7' },
-  { id: '/img/creator8.jpg', name: 'Avatar 8' },
+  { id: '/img/users/avatar1.jpg', name: 'Avatar 1' },
+  { id: '/img/users/avatar2.jpg', name: 'Avatar 2' },
+  { id: '/img/users/avatar3.jpg', name: 'Avatar 3' },
+  { id: '/img/users/avatar4.jpg', name: 'Avatar 4' },
+  { id: '/img/users/avatar5.jpg', name: 'Avatar 5' },
+  { id: '/img/users/avatar6.jpg', name: 'Avatar 6' },
+  { id: '/img/users/avatar7.jpg', name: 'Avatar 7' },
+  { id: '/img/users/avatar8.jpg', name: 'Avatar 8' },
+  { id: '/img/users/avatar9.jpg', name: 'Avatar 9' },
+  { id: '/img/users/avatar10.jpg', name: 'Avatar 10' },
 ] as const;
 
 const NewUserAccountForm = () => {
