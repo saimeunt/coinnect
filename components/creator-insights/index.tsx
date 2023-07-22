@@ -1,15 +1,15 @@
-import { currentUser } from '@clerk/nextjs';
+// import Insights from './insights';
 
-// import { Membership } from '../../lib/types';
-
-const CreatorInsights = async () => {
-  const user = await currentUser();
-  if (!user) {
-    return null;
-  }
-  // const draftMembership = user.publicMetadata.membership as Membership;
-  // return <CreatorPage membership={draftMembership} />;
-  return <div>CREATOR INSIGHTS</div>;
-};
+const CreatorInsights = () => (
+  <div className="m-4">
+    <h2 className="mb-8 text-xl font-bold leading-7">Insights</h2>
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-2xl">
+        {/* <Insights /> */}
+        INSIGHTS
+      </div>
+    </div>
+  </div>
+);
 
 export default CreatorInsights;

@@ -5,7 +5,11 @@ import { useAccount } from 'wagmi';
 import { getNftsForOwner } from '../../lib/alchemy';
 // import { balanceOf } from '../../lib/contracts/stablecoin/contract';
 import { useBalanceOf, useAllowance } from '../../lib/contracts/stablecoin/contract';
-import { useBalanceOfToken, useRewardsAmount } from '../../lib/contracts/tokens/contract';
+import {
+  useBalanceOfToken,
+  useRewardsAmount,
+  usePayoutsAmount,
+} from '../../lib/contracts/tokens/contract';
 import { ownedNftToMembershipCardNft } from '../../lib/utils';
 import { MembershipCardNft } from '../../lib/types';
 
@@ -32,6 +36,12 @@ export const useAccountRewardsAmount = (name: string) => {
   const { data } = useRewardsAmount(address || zeroAddress, name);
   // console.log(data);
   return data ? Number(Number(formatUnits(data, 9)).toFixed(4)) : 0;
+};
+
+export const useAccountPayoutsAmount = () => {
+  const { address } = useAccount();
+  const { data } = usePayoutsAmount(address || zeroAddress);
+  return data ? Number(formatUnits(data, 6)) : 0;
 };
 
 /* export const useBalanceOf = () => {

@@ -17,7 +17,7 @@ const UserLayout = async ({ children }: { children: ReactNode }) => {
         { name: 'My feed', href: '/user', icon: 'NewspaperIcon' },
         { name: 'My memberships', href: '/user/creators', icon: 'IdentificationIcon' },
         { name: 'Discover', href: '/user/discover', icon: 'MagnifyingGlassIcon' },
-        { name: 'Governance', href: '/user/governance', icon: 'EnvelopeOpenIcon' },
+        // { name: 'Governance', href: '/user/governance', icon: 'EnvelopeOpenIcon' },
         { name: 'Settings', href: '/user/settings', icon: 'CogIcon' },
       ]}
       user={{ fullName: `${user.firstName} ${user.lastName}`, role: 'user' }}

@@ -65,7 +65,7 @@ const SubscribeModal = ({ name }: { name: string }) => {
   // console.log({ approved });
   const { data: approveData, approve } = useApprove(
     process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
-    parseUnits(amount, 6),
+    parseUnits((Number(amount) + 1).toString(), 6),
   );
   const { data: subscribeData, subscribe } = useSubscribe(
     name,

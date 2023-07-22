@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat';
 import { time } from '@nomicfoundation/hardhat-network-helpers';
-import { stringToHex, parseUnits, formatUnits } from 'viem';
+// import { stringToHex, parseUnits, formatUnits } from 'viem';
 import { clerkClient } from '@clerk/nextjs';
 
 import {
@@ -32,20 +32,20 @@ async function main() {
   console.log('accounts.setTokens');
   //
   const [signer1, signer2, signer3] = await ethers.getSigners();
-  await stableCoin.mint(signer1.address, parseUnits('10000', 6));
+  await stableCoin.mint(signer1.address, ethers.parseUnits('10000', 6));
   console.log('stableCoin.mint signer1');
   await stableCoin.mint(
     process.env.NODE_ENV !== 'production'
       ? signer2.address
       : '0x84F57E38f70cBFB90879044E43d338D03DBfc8ad',
-    parseUnits('10000', 6),
+    ethers.parseUnits('10000', 6),
   );
   console.log('stableCoin.mint signer2');
   await stableCoin.mint(
     process.env.NODE_ENV !== 'production'
       ? signer3.address
       : '0x06f4bB5595eF7BAeA4F00Ac0Ed3E262284228a41',
-    parseUnits('10000', 6),
+    ethers.parseUnits('10000', 6),
   );
   console.log('stableCoin.mint signer3');
   //
@@ -54,7 +54,7 @@ async function main() {
       ? 'user_2SZ0zGOcsSko6C48kfOZL25HEkS'
       : 'user_2SklVwW19XjvJpFRWjTE6V5uE2J';
   const [, userId1Raw] = userId1.split('_');
-  const name1 = stringToHex('epic-rabbits', { size: 32 });
+  const name1 = ethers.encodeBytes32String('epic-rabbits') as `0x${string}`;
   const rawCreatorAccount1 = {
     name: name1,
     title: 'Epic Rabbits',
@@ -78,7 +78,7 @@ async function main() {
       },
     },
     oboleId: BigInt(1),
-    userId: stringToHex(userId1Raw, { size: 32 }),
+    userId: ethers.encodeBytes32String(userId1Raw) as `0x${string}`,
   };
   /* const name2 = stringToHex('tribe-diamond', { size: 32 });
   const rawCreatorAccount2 = {
@@ -121,10 +121,10 @@ async function main() {
     const userId2 = 'user_2Sc8ytccwH2ugxoSYg0iCxb8d9n';
     const [, userId2Raw] = userId2.split('_');
     const rawUserAccount = {
-      username: stringToHex('saimeunt', { size: 32 }),
-      avatarUrl: new URL('/img/creator5.jpg', baseUrl()).href,
+      username: ethers.encodeBytes32String('saimeunt') as `0x${string}`,
+      avatarUrl: new URL('/img/users/avatar1.jpg', baseUrl()).href,
       interests: [0],
-      userId: stringToHex(userId2Raw, { size: 32 }),
+      userId: ethers.encodeBytes32String(userId2Raw) as `0x${string}`,
     };
     const tx2 = await accounts.connect(signer2).createUserAccount(rawUserAccount);
     await tx2.wait();
@@ -140,36 +140,38 @@ async function main() {
     console.log(membershipCardData);
     const uri = await tokens.uri(BigInt(2));
     console.log(uri);
-    const tx4 = await stableCoin.connect(signer2).approve(tokens.target, parseUnits('10000', 6));
+    const tx4 = await stableCoin
+      .connect(signer2)
+      .approve(tokens.target, ethers.parseUnits('10000', 6));
     await tx4.wait();
-    const tx5 = await tokens.connect(signer2).donate(name1, parseUnits('10', 6));
+    const tx5 = await tokens.connect(signer2).donate(name1, ethers.parseUnits('10', 6));
     await tx5.wait();
     const userBalance1 = await stableCoin.balanceOf(signer2.address);
     const oboleBalance1 = await tokens.balanceOf(signer2.address, creatorAccount.oboleId);
     console.log({
-      userBalance1: formatUnits(userBalance1, 6),
-      oboleBalance1: formatUnits(oboleBalance1, 9),
+      userBalance1: ethers.formatUnits(userBalance1, 6),
+      oboleBalance1: ethers.formatUnits(oboleBalance1, 9),
     });
-    /* const tier = stringToHex('standard', { size: 32 });
+    const tier = ethers.encodeBytes32String('standard');
     const tx7 = await tokens.connect(signer2).subscribe(name1, tier, 1);
     await tx7.wait();
     await time.increase(60 * 60 * 24);
     const rewardsAmount1 = await tokens.rewardsAmount(signer2.address, name1);
-    console.log({ rewardsAmount1: formatUnits(rewardsAmount1, 9) });
+    console.log({ rewardsAmount1: ethers.formatUnits(rewardsAmount1, 9) });
     const tx8 = await tokens.connect(signer2).claimRewards(name1);
     await tx8.wait();
     const userBalance2 = await stableCoin.balanceOf(signer2.address);
     const oboleBalance2 = await tokens.balanceOf(signer2.address, creatorAccount.oboleId);
     console.log({
-      userBalance: formatUnits(userBalance2, 6),
-      oboleBalance2: formatUnits(oboleBalance2, 9),
+      userBalance: ethers.formatUnits(userBalance2, 6),
+      oboleBalance2: ethers.formatUnits(oboleBalance2, 9),
     });
     const rewardsAmount2 = await tokens.rewardsAmount(signer2.address, name1);
-    console.log({ rewardsAmount2: formatUnits(rewardsAmount2, 9) });
+    console.log({ rewardsAmount2: ethers.formatUnits(rewardsAmount2, 9) });
     await time.increase(60 * 60 * 24 * 60);
     const rewardsAmount3 = await tokens.rewardsAmount(signer2.address, name1);
-    console.log({ rewardsAmount3: formatUnits(rewardsAmount3, 9) });
-    const tx9 = await tokens.withdraw();
+    console.log({ rewardsAmount3: ethers.formatUnits(rewardsAmount3, 9) });
+    /* const tx9 = await tokens.withdraw();
     await tx9.wait();
     const creatorBalance = await stableCoin.balanceOf(signer1.address);
     console.log({ creatorBalance: formatUnits(creatorBalance, 6) }); */

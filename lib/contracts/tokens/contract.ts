@@ -84,6 +84,15 @@ export const useClaimRewards = (name: string) => {
   return { data, claimRewards };
 };
 
+export const usePayoutsAmount = (account: `0x${string}`) =>
+  useContractRead({
+    address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
+    abi,
+    functionName: 'payoutsAmount',
+    args: [account],
+    watch: true,
+  });
+
 export const useWithdraw = () => {
   const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,

@@ -1,5 +1,5 @@
-import User from '../../components/user';
+import UserFeed from '../../components/user';
 
-const UserPage = () => <User />;
+const UserFeedPage = () => <UserFeed />;
 
-export default UserPage;
+export default UserFeedPage;

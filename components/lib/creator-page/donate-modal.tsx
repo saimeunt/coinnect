@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import useContext from '../context/hook';
 import { useApprove } from '../../../lib/contracts/stablecoin/contract';
 import { useDonate } from '../../../lib/contracts/tokens/contract';
-import { useAccountAllowance } from '../hooks';
+import { useAccountAllowance, useAccountBalanceOf } from '../hooks';
 
 const DonateModal = ({ name }: { name: string }) => {
   const {
@@ -17,18 +17,17 @@ const DonateModal = ({ name }: { name: string }) => {
   } = useContext();
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
   const [amount, setAmount] = useState('');
+  const balance = useAccountBalanceOf();
   const allowance = useAccountAllowance(process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS);
   // console.log({ allowance, amount: Number(amount || '0') });
   const approved = allowance === 0 ? false : Number(amount || '0') <= allowance;
   // console.log({ approved });
   const { data: approveData, approve } = useApprove(
     process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
-    parseUnits(amount, 6),
+    parseUnits((Number(amount) + 1).toString(), 6),
   );
   const { data: donateData, donate } = useDonate(name, parseUnits(amount, 6));
-  const { isLoading: approveIsLoading } = useWaitForTransaction({
-    hash: approveData?.hash,
-  });
+  const { isLoading: approveIsLoading } = useWaitForTransaction({ hash: approveData?.hash });
   const { isLoading: donateIsLoading } = useWaitForTransaction({
     hash: donateData?.hash,
     onSuccess: () => {
@@ -108,7 +107,8 @@ const DonateModal = ({ name }: { name: string }) => {
                       </div>
                       <input
                         type="number"
-                        min={0}
+                        min={1}
+                        max={balance}
                         step={1}
                         name="amount"
                         id="amount"
