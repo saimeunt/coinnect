@@ -26,4 +26,6 @@ contract StableCoin is Ownable, ERC20 {
   function mint(address account, uint amount) external onlyOwner {
     _mint(account, amount);
   }
+
+  // fallback() external {}
 }

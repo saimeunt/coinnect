@@ -1,4 +1,4 @@
-import { hexToString, stringToHex } from 'viem';
+import { hexToString, stringToHex, formatUnits } from 'viem';
 
 import {
   RawCreatorAccount,
@@ -9,7 +9,7 @@ import {
   UserAccount,
   CardTierName,
 } from './types';
-import { colors, defaultCreatorAccount } from './constants';
+import { colors } from './constants';
 
 export const baseUrl = () =>
   process.env.NODE_ENV !== 'production'
@@ -24,6 +24,8 @@ export const formatCurrency = (amount: number) =>
     .format(amount)
     .replace(/(\.|,)00$/g, '');
 
+export const formatObole = (amount: bigint) => Number(Number(formatUnits(amount, 9)).toFixed(4));
+
 export const colorNumberToString = (colorNumber: number) => {
   const { name: color } = colors.find(({ id }) => id === colorNumber) as {
     id: number;
@@ -31,6 +33,29 @@ export const colorNumberToString = (colorNumber: number) => {
   };
   return color.toLowerCase();
 };
+
+export const defaultCreatorAccount = (): CreatorAccount => ({
+  name: '',
+  title: '',
+  description: '',
+  avatarUrl: new URL('/img/creators/default/avatar.jpg', baseUrl()).href,
+  bannerUrl: new URL('/img/creators/default/banner.jpg', baseUrl()).href,
+  interests: [],
+  cards: {
+    free: { logoUrl: new URL('/img/creators/default/free.jpg', baseUrl()).href, color: 0 },
+    standard: { logoUrl: new URL('/img/creators/default/standard.jpg', baseUrl()).href, color: 5 },
+    premium: { logoUrl: new URL('/img/creators/default/premium.jpg', baseUrl()).href, color: 10 },
+  },
+  oboleId: 0,
+  userId: '',
+});
+
+export const defaultUserAccount = (): UserAccount => ({
+  username: '',
+  avatarUrl: new URL('/img/creator5.jpg', baseUrl()).href,
+  interests: [],
+  userId: '',
+});
 
 export const rawCreatorAccountToCreatorAccount = (
   rawCreatorAccount: RawCreatorAccount,
@@ -100,31 +125,7 @@ export const userAccountToRawUserAccount = (userAccount: UserAccount): RawUserAc
   userId: stringToHex(userAccount.userId, { size: 32 }),
 });
 
-export const defaultPosts = () => [
-  {
-    videoUrl: 'https://www.youtube.com/watch?v=S1Mvy3E8P2U',
-    title: 'Intro live',
-    description: 'This is the intro live of the channel, check it out!',
-    tier: 'public',
-    date: new Date('2023-07-03').toISOString(),
-  },
-  {
-    videoUrl: 'https://www.youtube.com/watch?v=WRWtvbyprgo',
-    title: 'Free live',
-    description: 'Talking about my favorite musicians.',
-    tier: 'free',
-    date: new Date('2023-07-10').toISOString(),
-  },
-  {
-    videoUrl: 'https://www.youtube.com/watch?v=Pf_si60K9nM',
-    title: 'Standard live',
-    description: 'AMA with the community.',
-    tier: 'standard',
-    date: new Date('2023-07-17').toISOString(),
-  },
-];
-
-export const currentUser = async () => ({
+/* export const currentUser = async () => ({
   firstName: 'Firstname',
   lastName: 'Lastname',
   profileImageUrl:
@@ -135,4 +136,4 @@ export const currentUser = async () => ({
   privateMetadata: {
     posts: defaultPosts(),
   },
-});
+}); */

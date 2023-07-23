@@ -420,4 +420,6 @@ contract Tokens is ERC1155 {
     payouts[msg.sender] = 0;
     stableCoin.transfer(msg.sender, payout);
   }
+
+  // fallback() external {}
 }

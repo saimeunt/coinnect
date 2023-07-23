@@ -9,6 +9,9 @@ declare namespace NodeJS {
     readonly VERCEL_GIT_COMMIT_REF: string;
     // private
     readonly ACCOUNT_PRIVATE_KEY: string;
+    readonly USER1_ADDRESS: string;
+    readonly USER2_ADDRESS: string;
+    readonly USER3_ADDRESS: string;
     // readonly ETHERSCAN_API_KEY: string;
     readonly CLERK_SECRET_KEY: string;
     // readonly GOOGLE_CLIENT_ID: string;

@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { capitalize } from 'lodash';
-import { formatUnits } from 'viem';
 
 import { TokenData } from '../../lib/types';
-import { baseUrl } from '../../lib/utils';
+import { baseUrl, formatObole } from '../../lib/utils';
 
 const MembershipCard = ({
   membershipCard: { tokenId, title, memberId, name, color, tier, oboleBalance },
@@ -35,7 +34,7 @@ const MembershipCard = ({
               {capitalize(tier)} membership
             </span>
             <span className="ml-4 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-              {formatUnits(oboleBalance, 9)} $OBO
+              {formatObole(oboleBalance)} $OBO
             </span>
           </p>
         </div>

@@ -207,4 +207,6 @@ contract Accounts is Ownable {
     }
     userAccounts[msg.sender] = userAccount;
   }
+
+  // fallback() external {}
 }

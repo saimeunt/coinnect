@@ -11,7 +11,7 @@ import {
   useRewardsAmount,
   usePayoutsAmount,
 } from '../../lib/contracts/tokens/contract';
-import { rawTokenDataToTokenData } from '../../lib/utils';
+import { rawTokenDataToTokenData, formatObole } from '../../lib/utils';
 import { TokenData } from '../../lib/types';
 
 export const useAccountBalanceOf = () => {
@@ -36,13 +36,13 @@ export const useAccountMembershipCard = (creatorName: string) => {
 export const useAccountBalanceOfToken = (id: bigint) => {
   const { address } = useAccount();
   const { data } = useBalanceOfToken(address || zeroAddress, id);
-  return data ? Number(Number(formatUnits(data, 9)).toFixed(4)) : 0;
+  return data ? formatObole(data) : 0;
 };
 
 export const useAccountRewardsAmount = (name: string) => {
   const { address } = useAccount();
   const { data } = useRewardsAmount(address || zeroAddress, name);
-  return data ? Number(Number(formatUnits(data, 9)).toFixed(4)) : 0;
+  return data ? formatObole(data) : 0;
 };
 
 export const useAccountPayoutsAmount = () => {

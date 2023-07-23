@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import satori from 'satori';
 import { capitalize } from 'lodash';
 import { format } from 'date-fns';
-import { formatUnits } from 'viem';
 
+import { formatObole } from '../../../../lib/utils';
 import { getTokenData } from '../../../../lib/contracts/tokens/contract';
 
 // const size = { width: 1024, height: 1024 };
@@ -112,6 +112,9 @@ export const GET = async (request: NextRequest) => {
     description,
     name,
   } = await getTokenData(tokenId);
+  if (memberId === BigInt(0)) {
+    return NextResponse.redirect(new URL('/not-found', request.url));
+  }
   const fontResponse = await fetch(
     'https://github.com/google/fonts/blob/main/apache/roboto/static/Roboto-Regular.ttf?raw=true',
   );
@@ -126,7 +129,7 @@ export const GET = async (request: NextRequest) => {
       subscriptionEndTimestamp={Number(subscriptionEndTimestamp)}
       username={username}
       avatarUrl={avatarUrl}
-      oboleBalance={formatUnits(oboleBalance, 9)}
+      oboleBalance={formatObole(oboleBalance).toString()}
       title={title}
       description={description}
       name={name}

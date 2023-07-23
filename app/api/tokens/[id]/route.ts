@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { formatUnits } from 'viem';
 
-import { baseUrl } from '../../../../lib/utils';
+import { baseUrl, formatObole } from '../../../../lib/utils';
 import { getTokenData } from '../../../../lib/contracts/tokens/contract';
 
 export const GET = async (request: NextRequest) => {
@@ -45,7 +44,7 @@ export const GET = async (request: NextRequest) => {
     { trait_type: 'username', value: username },
     {
       trait_type: 'oboleBalance',
-      value: Number(formatUnits(oboleBalance, 6)),
+      value: formatObole(oboleBalance),
       display_type: 'numeric',
     },
   ];

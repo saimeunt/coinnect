@@ -11,7 +11,7 @@ const UserToolbar = ({ creatorAccount }: { creatorAccount: CreatorAccount }) => 
   const rewardsAmount = useAccountRewardsAmount(creatorAccount.name);
   return membershipCard ? (
     <>
-      {rewardsAmount >= 0.0001 && (
+      {rewardsAmount > 0 && (
         <ClaimButton name={creatorAccount.name} rewardsAmount={rewardsAmount} />
       )}
       <DonateButton />

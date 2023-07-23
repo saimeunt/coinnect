@@ -56,13 +56,13 @@ export const useGetTokenData = (tokenId?: bigint) =>
     watch: true,
   });
 
-export const useDonate = (name: string, amount: bigint) => {
+export const useDonate = (name: string, amount: bigint, approved: boolean) => {
   const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
     abi,
     functionName: 'donate',
     args: [stringToHex(name, { size: 32 }), amount],
-    enabled: amount > 0,
+    enabled: approved && amount > 0,
   });
   const { data, write: donate } = useContractWrite(config);
   return { data, donate };
@@ -72,12 +72,14 @@ export const useSubscribe = (
   name: string,
   tier: string,
   subscriptionDuration: SubscriptionDuration,
+  approved: boolean,
 ) => {
   const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
     abi,
     functionName: 'subscribe',
     args: [stringToHex(name, { size: 32 }), stringToHex(tier, { size: 32 }), subscriptionDuration],
+    enabled: approved,
   });
   const { data, write: subscribe } = useContractWrite(config);
   return { data, subscribe };

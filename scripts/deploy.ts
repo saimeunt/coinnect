@@ -1,19 +1,9 @@
 import { ethers } from 'hardhat';
-import { time } from '@nomicfoundation/hardhat-network-helpers';
-// import { stringToHex, parseUnits, formatUnits } from 'viem';
-import { clerkClient } from '@clerk/nextjs';
 
-import {
-  rawCreatorAccountToCreatorAccount,
-  rawUserAccountToUserAccount,
-  baseUrl,
-  defaultPosts,
-} from '../lib/utils';
+import { baseUrl } from '../lib/utils';
+import seed from './seed';
 
 async function main() {
-  // const [signer1, signer2, signer3] = await ethers.getSigners();
-  // console.log(signer1, signer2, signer3);
-  // deploy contracts
   const stableCoin = await ethers.deployContract('StableCoin');
   await stableCoin.waitForDeployment();
   console.log(`StableCoin successfully deployed to ${stableCoin.target}`);
@@ -29,153 +19,8 @@ async function main() {
   console.log(`Tokens successfully deployed to ${tokens.target}`);
   const tx = await accounts.setTokens(tokens.target);
   await tx.wait();
-  console.log('accounts.setTokens');
-  //
-  const [signer1, signer2, signer3] = await ethers.getSigners();
-  await stableCoin.mint(signer1.address, ethers.parseUnits('10000', 6));
-  console.log('stableCoin.mint signer1');
-  await stableCoin.mint(
-    process.env.NODE_ENV !== 'production'
-      ? signer2.address
-      : '0x84F57E38f70cBFB90879044E43d338D03DBfc8ad',
-    ethers.parseUnits('10000', 6),
-  );
-  console.log('stableCoin.mint signer2');
-  await stableCoin.mint(
-    process.env.NODE_ENV !== 'production'
-      ? signer3.address
-      : '0x06f4bB5595eF7BAeA4F00Ac0Ed3E262284228a41',
-    ethers.parseUnits('10000', 6),
-  );
-  console.log('stableCoin.mint signer3');
-  //
-  const userId1 =
-    process.env.NODE_ENV !== 'production'
-      ? 'user_2SZ0zGOcsSko6C48kfOZL25HEkS'
-      : 'user_2SklVwW19XjvJpFRWjTE6V5uE2J';
-  const [, userId1Raw] = userId1.split('_');
-  const name1 = ethers.encodeBytes32String('epic-rabbits') as `0x${string}`;
-  const rawCreatorAccount1 = {
-    name: name1,
-    title: 'Epic Rabbits',
-    description:
-      'Epic Rabbits is a community of generative artificial intelligence enthusiasts. We have free tutorials on Midjourney and private lives where we embark on a journey to discover and learn Stable Diffusion.',
-    avatarUrl: new URL('/img/creators/epic-rabbits/avatar.jpg', baseUrl()).href,
-    bannerUrl: new URL('/img/creators/epic-rabbits/banner.jpg', baseUrl()).href,
-    interests: [0],
-    cards: {
-      free: {
-        logoUrl: new URL('/img/creators/epic-rabbits/free.jpg', baseUrl()).href,
-        color: 0,
-      },
-      standard: {
-        logoUrl: new URL('/img/creators/epic-rabbits/standard.jpg', baseUrl()).href,
-        color: 5,
-      },
-      premium: {
-        logoUrl: new URL('/img/creators/epic-rabbits/premium.jpg', baseUrl()).href,
-        color: 10,
-      },
-    },
-    oboleId: BigInt(1),
-    userId: ethers.encodeBytes32String(userId1Raw) as `0x${string}`,
-  };
-  /* const name2 = stringToHex('tribe-diamond', { size: 32 });
-  const rawCreatorAccount2 = {
-    name: name2,
-    title: 'Tribe Diamond',
-    description:
-      'The Tribe Diamond Pass is a collection of 200 generative NFTs that represents a community bonded by the belief in the future of web3 entertainment brands and interactive gaming.',
-    avatarUrl: new URL('/img/creators/tribe-diamond/avatar.jpg', baseUrl()).href,
-    bannerUrl: new URL('/img/creators/tribe-diamond/banner.jpg', baseUrl()).href,
-    interests: [0],
-    cards: {
-      free: {
-        logoUrl: new URL('/img/creators/tribe-diamond/free.jpg', baseUrl()).href,
-        color: 0,
-      },
-      standard: {
-        logoUrl: new URL('/img/creators/tribe-diamond/standard.jpg', baseUrl()).href,
-        color: 5,
-      },
-      premium: {
-        logoUrl: new URL('/img/creators/tribe-diamond/premium.jpg', baseUrl()).href,
-        color: 10,
-      },
-    },
-    oboleId: BigInt(2),
-    userId: stringToHex(userId1Raw, { size: 32 }),
-  }; */
-  // console.log(JSON.stringify({ creatorAccount: userCreatorAccount }));
-  await clerkClient.users.updateUserMetadata(userId1, {
-    publicMetadata: { creatorAccount: rawCreatorAccountToCreatorAccount(rawCreatorAccount1) },
-    privateMetadata: { posts: defaultPosts() },
-  });
-  console.log('clerkClient.users.updateUserMetadata');
-  const tx1 = await accounts.createCreatorAccount(rawCreatorAccount1);
-  await tx1.wait();
-  console.log('accounts.createCreatorAccount');
-  const creatorAccount = await accounts.getCreatorAccountByName(name1);
-  console.log(creatorAccount);
-  if (process.env.NODE_ENV !== 'production') {
-    const userId2 = 'user_2Sc8ytccwH2ugxoSYg0iCxb8d9n';
-    const [, userId2Raw] = userId2.split('_');
-    const rawUserAccount = {
-      username: ethers.encodeBytes32String('saimeunt') as `0x${string}`,
-      avatarUrl: new URL('/img/users/avatar1.jpg', baseUrl()).href,
-      interests: [0],
-      userId: ethers.encodeBytes32String(userId2Raw) as `0x${string}`,
-    };
-    const tx2 = await accounts.connect(signer2).createUserAccount(rawUserAccount);
-    await tx2.wait();
-    // console.log(JSON.stringify({ userAccount: userUserAccount }));
-    await clerkClient.users.updateUserMetadata(userId2, {
-      publicMetadata: { userAccount: rawUserAccountToUserAccount(rawUserAccount) },
-    });
-    const userAccount = await accounts.getUserAccountByAddress(signer2.address);
-    console.log(userAccount);
-    const tx3 = await tokens.connect(signer2).mintMembershipCard(name1);
-    await tx3.wait();
-    const membershipCardData = await tokens.getTokenData(BigInt(2));
-    console.log(membershipCardData);
-    const uri = await tokens.uri(BigInt(2));
-    console.log(uri);
-    const tx4 = await stableCoin
-      .connect(signer2)
-      .approve(tokens.target, ethers.parseUnits('10000', 6));
-    await tx4.wait();
-    const tx5 = await tokens.connect(signer2).donate(name1, ethers.parseUnits('10', 6));
-    await tx5.wait();
-    const userBalance1 = await stableCoin.balanceOf(signer2.address);
-    const oboleBalance1 = await tokens.balanceOf(signer2.address, creatorAccount.oboleId);
-    console.log({
-      userBalance1: ethers.formatUnits(userBalance1, 6),
-      oboleBalance1: ethers.formatUnits(oboleBalance1, 9),
-    });
-    /* const tier = ethers.encodeBytes32String('standard');
-    const tx7 = await tokens.connect(signer2).subscribe(name1, tier, 1);
-    await tx7.wait();
-    // await time.increase(60 * 60 * 24);
-    const rewardsAmount1 = await tokens.rewardsAmount(signer2.address, name1);
-    console.log({ rewardsAmount1: ethers.formatUnits(rewardsAmount1, 9) });
-    const tx8 = await tokens.connect(signer2).claimRewards(name1);
-    await tx8.wait();
-    const userBalance2 = await stableCoin.balanceOf(signer2.address);
-    const oboleBalance2 = await tokens.balanceOf(signer2.address, creatorAccount.oboleId);
-    console.log({
-      userBalance: ethers.formatUnits(userBalance2, 6),
-      oboleBalance2: ethers.formatUnits(oboleBalance2, 9),
-    });
-    const rewardsAmount2 = await tokens.rewardsAmount(signer2.address, name1);
-    console.log({ rewardsAmount2: ethers.formatUnits(rewardsAmount2, 9) });
-    // await time.increase(60 * 60 * 24 * 60);
-    const rewardsAmount3 = await tokens.rewardsAmount(signer2.address, name1);
-    console.log({ rewardsAmount3: ethers.formatUnits(rewardsAmount3, 9) }); */
-    /* const tx9 = await tokens.withdraw();
-    await tx9.wait();
-    const creatorBalance = await stableCoin.balanceOf(signer1.address);
-    console.log({ creatorBalance: formatUnits(creatorBalance, 6) }); */
-  }
+  console.log('Deployment finished');
+  await seed(stableCoin, accounts, tokens);
 }
 
 main().catch((error) => {

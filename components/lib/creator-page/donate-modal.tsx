@@ -24,9 +24,9 @@ const DonateModal = ({ name }: { name: string }) => {
   // console.log({ approved });
   const { data: approveData, approve } = useApprove(
     process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
-    parseUnits((Number(amount) + 1).toString(), 6),
+    parseUnits(amount, 6),
   );
-  const { data: donateData, donate } = useDonate(name, parseUnits(amount, 6));
+  const { data: donateData, donate } = useDonate(name, parseUnits(amount, 6), approved);
   const { isLoading: approveIsLoading } = useWaitForTransaction({ hash: approveData?.hash });
   const { isLoading: donateIsLoading } = useWaitForTransaction({
     hash: donateData?.hash,

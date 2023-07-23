@@ -4,8 +4,8 @@ import { auth, clerkClient, currentUser } from '@clerk/nextjs';
 import { Web3Storage } from 'web3.storage';
 import { revalidatePath } from 'next/cache';
 
-import { baseUrl } from './utils';
-import { defaultCreatorAccount, defaultUserAccount, interests } from './constants';
+import { baseUrl, defaultCreatorAccount, defaultUserAccount } from './utils';
+import { interests } from './constants';
 import { UserPublicMetadata, UserPrivateMetadata, CardTierName, PostTierName } from './types';
 
 const web3Storage = new Web3Storage({ token: process.env.WEB3_STORAGE_API_KEY });

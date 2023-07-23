@@ -21,7 +21,7 @@ const avatars = [
 ] as const;
 
 const NewUserAccountForm = () => {
-  const [avatarUrl, setAvatarUrl] = useState('/img/creator1.jpg');
+  const [avatarUrl, setAvatarUrl] = useState('/img/users/avatar1.jpg');
   const [isPending, startTransition] = useTransition();
   return (
     <form

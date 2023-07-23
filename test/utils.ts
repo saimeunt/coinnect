@@ -13,7 +13,7 @@ export const defaultCreatorAccount = () => ({
   name: ethers.encodeBytes32String('epic-rabbits'),
   title: 'Epic Rabbits',
   description:
-    'Epic Rabbits is a community of generative artificial intelligence enthusiasts. We have free tutorials on Midjourney and private lives where we embark on a journey to discover and learn Stable Diffusion.',
+    'Epic Rabbits is a community of generative artificial intelligence enthusiasts. We have free tutorials on Midjourney and private lives where we embark on an adventure to discover and learn Stable Diffusion.',
   avatarUrl: new URL('/img/creators/epic-rabbits/avatar.jpg', baseUrl()).href,
   bannerUrl: new URL('/img/creators/epic-rabbits/banner.jpg', baseUrl()).href,
   interests: [BigInt(0)],

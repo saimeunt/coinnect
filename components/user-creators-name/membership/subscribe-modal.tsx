@@ -65,12 +65,13 @@ const SubscribeModal = ({ name }: { name: string }) => {
   // console.log({ approved });
   const { data: approveData, approve } = useApprove(
     process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
-    parseUnits((Number(amount) + 1).toString(), 6),
+    parseUnits(amount, 6),
   );
   const { data: subscribeData, subscribe } = useSubscribe(
     name,
     tier,
     SubscriptionDurations[subscriptionDuration],
+    approved,
   );
   // console.log(name, tier, SubscriptionDurations[subscriptionDuration]);
   const { isLoading: approveIsLoading } = useWaitForTransaction({

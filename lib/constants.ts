@@ -1,6 +1,3 @@
-import { CreatorAccount, UserAccount } from './types';
-import { baseUrl } from './utils';
-
 export const interests = [
   { id: 0, name: 'Gaming' },
   { id: 1, name: 'Crypto' },
@@ -8,29 +5,6 @@ export const interests = [
   { id: 3, name: 'Lifestyle' },
   { id: 4, name: 'Travel' },
 ] as const;
-
-export const defaultCreatorAccount = (): CreatorAccount => ({
-  name: '',
-  title: '',
-  description: '',
-  avatarUrl: new URL('/img/creators/default/avatar.jpg', baseUrl()).href,
-  bannerUrl: new URL('/img/creators/default/banner.jpg', baseUrl()).href,
-  interests: [],
-  cards: {
-    free: { logoUrl: new URL('/img/creators/default/free.jpg', baseUrl()).href, color: 0 },
-    standard: { logoUrl: new URL('/img/creators/default/standard.jpg', baseUrl()).href, color: 5 },
-    premium: { logoUrl: new URL('/img/creators/default/premium.jpg', baseUrl()).href, color: 10 },
-  },
-  oboleId: 0,
-  userId: '',
-});
-
-export const defaultUserAccount = (): UserAccount => ({
-  username: '',
-  avatarUrl: new URL('/img/creator5.jpg', baseUrl()).href,
-  interests: [],
-  userId: '',
-});
 
 export const colors = [
   { id: 0, name: 'Red' },

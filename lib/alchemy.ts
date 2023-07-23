@@ -17,26 +17,26 @@ export const getNftsForOwner = async (address: `0x${string}`) => {
           address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
           // tokenType: NftTokenType.ERC1155,
         },
-        tokenId: '2',
+        tokenId: '10',
         tokenType: NftTokenType.UNKNOWN,
-        /* tokenType: NftTokenType.ERC1155,
-        title: 'Epic Rabbits Membership Card #1',
-        description: '',
-        timeLastUpdated: new Date().toISOString(),
-        metadataError: undefined,
-        rawMetadata: {
-          attributes: [
-            { trait_type: 'name', value: 'epic-rabbits' },
-            { trait_type: 'color', value: 'red' },
-            { trait_type: 'tier', value: 'free' },
-            { trait_type: 'oboleBalance', value: 100, display_type: 'numeric' },
-          ],
-        },
-        tokenUri: {
-          gateway: `${baseUrl()}/api/tokens/0000000000000000000000000000000000000000000000000000000000000002.json`,
-          raw: `${baseUrl()}/api/tokens/{id}.json`,
-        },
-        media: [], */
+        // tokenType: NftTokenType.ERC1155,
+        // title: 'Epic Rabbits Membership Card #1',
+        // description: '',
+        // timeLastUpdated: new Date().toISOString(),
+        // metadataError: undefined,
+        // rawMetadata: {
+        //   attributes: [
+        //     { trait_type: 'name', value: 'epic-rabbits' },
+        //     { trait_type: 'color', value: 'red' },
+        //     { trait_type: 'tier', value: 'free' },
+        //     { trait_type: 'oboleBalance', value: 100, display_type: 'numeric' },
+        //   ],
+        // },
+        // tokenUri: {
+        //   gateway: `${baseUrl()}/api/tokens/0000000000000000000000000000000000000000000000000000000000000002.json`,
+        //   raw: `${baseUrl()}/api/tokens/{id}.json`,
+        // },
+        // media: [],
         balance: 1,
       },
     ] as OwnedNft[];
