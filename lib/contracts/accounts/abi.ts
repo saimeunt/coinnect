@@ -1,6 +1,11 @@
 const abi = [
   {
     inputs: [],
+    name: 'CreatorAlreadyExistsError',
+    type: 'error',
+  },
+  {
+    inputs: [],
     name: 'InvalidCreatorAccountError',
     type: 'error',
   },
@@ -17,6 +22,11 @@ const abi = [
   {
     inputs: [],
     name: 'NotUserError',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'UserAlreadyExistsError',
     type: 'error',
   },
   {
@@ -37,10 +47,6 @@ const abi = [
     ],
     name: 'OwnershipTransferred',
     type: 'event',
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'fallback',
   },
   {
     inputs: [
@@ -519,6 +525,19 @@ const abi = [
     name: 'setTokens',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'tokens',
+    outputs: [
+      {
+        internalType: 'contract Tokens',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {

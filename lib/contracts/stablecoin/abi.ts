@@ -74,10 +74,6 @@ const abi = [
     type: 'event',
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'fallback',
-  },
-  {
     inputs: [
       {
         internalType: 'address',
@@ -154,7 +150,7 @@ const abi = [
         type: 'uint8',
       },
     ],
-    stateMutability: 'view',
+    stateMutability: 'pure',
     type: 'function',
   },
   {

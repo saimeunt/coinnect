@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react';
 import { formatUnits, zeroAddress } from 'viem';
 import { useAccount } from 'wagmi';
 
-import { getNftsForOwner } from '../../lib/alchemy';
-// import { balanceOf } from '../../lib/contracts/stablecoin/contract';
+import { getMembershipCards } from '../../lib/alchemy';
 import { useBalanceOf, useAllowance } from '../../lib/contracts/stablecoin/contract';
 import {
+  useMembershipCard,
+  useGetTokenData,
   useBalanceOfToken,
   useRewardsAmount,
   usePayoutsAmount,
 } from '../../lib/contracts/tokens/contract';
-import { ownedNftToMembershipCardNft } from '../../lib/utils';
-import { MembershipCardNft } from '../../lib/types';
+import { rawTokenDataToTokenData } from '../../lib/utils';
+import { TokenData } from '../../lib/types';
 
 export const useAccountBalanceOf = () => {
   const { address } = useAccount();
@@ -25,6 +26,13 @@ export const useAccountAllowance = (spender: `0x${string}`) => {
   return data ? Number(formatUnits(data, 6)) : 0;
 };
 
+export const useAccountMembershipCard = (creatorName: string) => {
+  const { address } = useAccount();
+  const { data: tokenId } = useMembershipCard(address || zeroAddress, creatorName);
+  const { data: rawTokenData } = useGetTokenData(tokenId);
+  return rawTokenData ? rawTokenDataToTokenData(rawTokenData) : undefined;
+};
+
 export const useAccountBalanceOfToken = (id: bigint) => {
   const { address } = useAccount();
   const { data } = useBalanceOfToken(address || zeroAddress, id);
@@ -34,7 +42,6 @@ export const useAccountBalanceOfToken = (id: bigint) => {
 export const useAccountRewardsAmount = (name: string) => {
   const { address } = useAccount();
   const { data } = useRewardsAmount(address || zeroAddress, name);
-  // console.log(data);
   return data ? Number(Number(formatUnits(data, 9)).toFixed(4)) : 0;
 };
 
@@ -44,42 +51,19 @@ export const useAccountPayoutsAmount = () => {
   return data ? Number(formatUnits(data, 6)) : 0;
 };
 
-/* export const useBalanceOf = () => {
+export const useAccountMembershipCards = () => {
   const { address } = useAccount();
   const [isLoading, setLoading] = useState(false);
-  const [balance, setBalance] = useState(0);
+  const [data, setData] = useState<TokenData[]>([]);
   useEffect(() => {
     setLoading(true);
     if (!address) {
       return;
     }
-    balanceOf(address).then((rawBalance) => {
-      setBalance(Number(formatUnits(rawBalance, 6)));
-      setLoading(false);
-    });
-  }, [address]);
-  return { balance, isLoading };
-}; */
-
-export const useMembershipCards = () => {
-  const { address } = useAccount();
-  const [isLoading, setLoading] = useState(false);
-  const [data, setData] = useState<MembershipCardNft[]>([]);
-  useEffect(() => {
-    setLoading(true);
-    if (!address) {
-      return;
-    }
-    getNftsForOwner(address).then((data) => {
-      setData(data.filter(({ balance }) => balance === 1).map(ownedNftToMembershipCardNft));
+    getMembershipCards(address).then((data) => {
+      setData(data);
       setLoading(false);
     });
   }, [address]);
   return { membershipCards: data, isLoading };
-};
-
-export const useMembershipCard = (creatorName: string) => {
-  const { membershipCards, isLoading } = useMembershipCards();
-  const membershipCard = membershipCards.find(({ name }) => name === creatorName);
-  return { membershipCard, isLoading };
 };

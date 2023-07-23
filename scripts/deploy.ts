@@ -152,10 +152,10 @@ async function main() {
       userBalance1: ethers.formatUnits(userBalance1, 6),
       oboleBalance1: ethers.formatUnits(oboleBalance1, 9),
     });
-    const tier = ethers.encodeBytes32String('standard');
+    /* const tier = ethers.encodeBytes32String('standard');
     const tx7 = await tokens.connect(signer2).subscribe(name1, tier, 1);
     await tx7.wait();
-    await time.increase(60 * 60 * 24);
+    // await time.increase(60 * 60 * 24);
     const rewardsAmount1 = await tokens.rewardsAmount(signer2.address, name1);
     console.log({ rewardsAmount1: ethers.formatUnits(rewardsAmount1, 9) });
     const tx8 = await tokens.connect(signer2).claimRewards(name1);
@@ -168,9 +168,9 @@ async function main() {
     });
     const rewardsAmount2 = await tokens.rewardsAmount(signer2.address, name1);
     console.log({ rewardsAmount2: ethers.formatUnits(rewardsAmount2, 9) });
-    await time.increase(60 * 60 * 24 * 60);
+    // await time.increase(60 * 60 * 24 * 60);
     const rewardsAmount3 = await tokens.rewardsAmount(signer2.address, name1);
-    console.log({ rewardsAmount3: ethers.formatUnits(rewardsAmount3, 9) });
+    console.log({ rewardsAmount3: ethers.formatUnits(rewardsAmount3, 9) }); */
     /* const tx9 = await tokens.withdraw();
     await tx9.wait();
     const creatorBalance = await stableCoin.balanceOf(signer1.address);

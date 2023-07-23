@@ -1,6 +1,8 @@
-import { Alchemy, Network, NftTokenType } from 'alchemy-sdk';
+import { Alchemy, Network, NftTokenType, OwnedNft } from 'alchemy-sdk';
 
-import { baseUrl } from './utils';
+// import { baseUrl } from './utils';
+
+import { getTokenData } from './contracts/tokens/contract';
 
 const alchemy = new Alchemy({
   apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
@@ -13,10 +15,11 @@ export const getNftsForOwner = async (address: `0x${string}`) => {
       {
         contract: {
           address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
-          tokenType: NftTokenType.ERC1155,
+          // tokenType: NftTokenType.ERC1155,
         },
         tokenId: '2',
-        tokenType: NftTokenType.ERC1155,
+        tokenType: NftTokenType.UNKNOWN,
+        /* tokenType: NftTokenType.ERC1155,
         title: 'Epic Rabbits Membership Card #1',
         description: '',
         timeLastUpdated: new Date().toISOString(),
@@ -33,19 +36,27 @@ export const getNftsForOwner = async (address: `0x${string}`) => {
           gateway: `${baseUrl()}/api/tokens/0000000000000000000000000000000000000000000000000000000000000002.json`,
           raw: `${baseUrl()}/api/tokens/{id}.json`,
         },
-        media: [],
+        media: [], */
         balance: 1,
       },
-    ];
+    ] as OwnedNft[];
   }
   const { ownedNfts } = await alchemy.nft.getNftsForOwner(address, {
     contractAddresses: [process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS],
   });
   /* const { ownedNfts } = await alchemy.nft.getNftsForOwner(
     '0x6cfFC3A3c6E609C8488E02bB72ea0F706dD092A9',
-    { contractAddresses: ['0xEBb37E46Fc0495e42eD43D5fc3FADFF49513ced8'] },
+    { contractAddresses: ['0xEBb37E46Fc0495e42eD43D5fc3FADFF49513ced8'], omitMetadata: true },
   ); */
   return ownedNfts;
+};
+
+export const getMembershipCards = async (address: `0x${string}`) => {
+  const ownedNfts = await getNftsForOwner(address);
+  const tokenIds = ownedNfts
+    .filter(({ balance }) => balance === 1)
+    .map(({ tokenId }) => BigInt(tokenId));
+  return Promise.all(tokenIds.map(getTokenData));
 };
 
 export default alchemy;

@@ -47,6 +47,7 @@ export type CreatorAccount = {
 };
 
 export type RawTokenData = {
+  tokenId: bigint;
   color: number;
   logoUrl: string;
   tier: `0x${string}`;
@@ -62,9 +63,10 @@ export type RawTokenData = {
 };
 
 export type TokenData = {
-  color: number;
+  tokenId: bigint;
+  color: string;
   logoUrl: string;
-  tier: string;
+  tier: CardTierName;
   memberId: bigint;
   mintTimestamp: bigint;
   subscriptionEndTimestamp: bigint;
@@ -74,16 +76,6 @@ export type TokenData = {
   title: string;
   description: string;
   name: string;
-};
-
-export type MembershipCardNft = {
-  tokenId: string;
-  title: string;
-  name: string;
-  tier: CardTierName;
-  color: string;
-  oboleBalance: number;
-  subscriptionEndTimestamp: number;
 };
 
 export type RawUserAccount = {

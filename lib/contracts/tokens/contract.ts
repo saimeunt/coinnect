@@ -37,6 +37,25 @@ export const useMintMembershipCard = (name: string) => {
   return { data, mintMembershipCard };
 };
 
+export const useMembershipCard = (account: `0x${string}`, name: string) =>
+  useContractRead({
+    address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
+    abi,
+    functionName: 'membershipCardsByOwner',
+    args: [account, stringToHex(name, { size: 32 })],
+    watch: true,
+  });
+
+export const useGetTokenData = (tokenId?: bigint) =>
+  useContractRead({
+    address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,
+    abi,
+    functionName: 'getTokenData',
+    args: [tokenId || BigInt(0)],
+    enabled: !!tokenId,
+    watch: true,
+  });
+
 export const useDonate = (name: string, amount: bigint) => {
   const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_TOKENS_CONTRACT_ADDRESS,

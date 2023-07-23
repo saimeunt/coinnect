@@ -22,17 +22,16 @@ const abi = [
   },
   {
     inputs: [],
+    name: 'ActiveSubscriptionError',
+    type: 'error',
+  },
+  {
+    inputs: [],
     name: 'AlreadyMemberError',
     type: 'error',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
+    inputs: [],
     name: 'InvalidAmountError',
     type: 'error',
   },
@@ -45,6 +44,11 @@ const abi = [
       },
     ],
     name: 'InvalidCreatorNameError',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'InvalidSubscriptionDurationError',
     type: 'error',
   },
   {
@@ -215,10 +219,6 @@ const abi = [
     type: 'event',
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'fallback',
-  },
-  {
     inputs: [
       {
         internalType: 'address',
@@ -323,6 +323,11 @@ const abi = [
       {
         components: [
           {
+            internalType: 'uint256',
+            name: 'tokenId',
+            type: 'uint256',
+          },
+          {
             internalType: 'uint8',
             name: 'color',
             type: 'uint8',
@@ -392,6 +397,19 @@ const abi = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'globalCounter',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '_value',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'address',
@@ -410,6 +428,84 @@ const abi = [
         internalType: 'bool',
         name: '',
         type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'membershipCards',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: 'creatorName',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'address',
+        name: 'userAddress',
+        type: 'address',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'tier',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'uint256',
+        name: 'memberId',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'mintTimestamp',
+        type: 'uint256',
+      },
+      {
+        internalType: 'enum Tokens.SubscriptionDuration',
+        name: 'subscriptionDuration',
+        type: 'uint8',
+      },
+      {
+        internalType: 'uint256',
+        name: 'subscriptionStartTimestamp',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'subscriptionEndTimestamp',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    name: 'membershipCardsByOwner',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
       },
     ],
     stateMutability: 'view',

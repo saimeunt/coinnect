@@ -96,6 +96,7 @@ contract Accounts is Ownable {
     }
     _;
   }
+
   /**
    * @dev Set the Tokens sibling contract address which is deployed after Accounts
    * @param tokensAddress tokens contract address
@@ -103,6 +104,7 @@ contract Accounts is Ownable {
   function setTokens(address tokensAddress) external onlyOwner {
     tokens = Tokens(tokensAddress);
   }
+
   /**
    * @dev Creates a new creator account
    * @param creatorAccount new creator account params
@@ -124,6 +126,7 @@ contract Accounts is Ownable {
     creatorAddressesByName[creatorAccount.name] = msg.sender;
     creatorAddressesByOboleId[creatorAccount.oboleId] = msg.sender;
   }
+
   /**
    * @dev Returns a creator account by name
    * @param name creator name
@@ -133,6 +136,7 @@ contract Accounts is Ownable {
     address creator = creatorAddressesByName[name];
     return creatorAccounts[creator];
   }
+
   /**
    * @dev Returns a creator account by obole id
    * @param oboleId obole id
@@ -142,6 +146,7 @@ contract Accounts is Ownable {
     address creator = creatorAddressesByOboleId[oboleId];
     return creatorAccounts[creator];
   }
+
   /**
    * @dev Returns a creator address by name
    * @param name creator name
@@ -150,6 +155,7 @@ contract Accounts is Ownable {
   function getCreatorAddressByName(bytes32 name) external view returns (address) {
     return creatorAddressesByName[name];
   }
+
   /**
    * @dev Updates a creator account
    * @param creatorAccount updated creator account params
@@ -164,6 +170,7 @@ contract Accounts is Ownable {
     }
     creatorAccounts[msg.sender] = creatorAccount;
   }
+
   /**
    * @dev Creates a new user account
    * @param userAccount new user account params
@@ -177,6 +184,7 @@ contract Accounts is Ownable {
     }
     userAccounts[msg.sender] = userAccount;
   }
+
   /**
    * @dev Returns a user account by address
    * @param user user address
@@ -185,6 +193,7 @@ contract Accounts is Ownable {
   function getUserAccountByAddress(address user) external view returns (UserAccount memory) {
     return userAccounts[user];
   }
+
   /**
    * @dev Updates a user account
    * @param userAccount updated user account params

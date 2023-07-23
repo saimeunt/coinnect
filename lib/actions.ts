@@ -4,6 +4,7 @@ import { auth, clerkClient, currentUser } from '@clerk/nextjs';
 import { Web3Storage } from 'web3.storage';
 import { revalidatePath } from 'next/cache';
 
+import { baseUrl } from './utils';
 import { defaultCreatorAccount, defaultUserAccount, interests } from './constants';
 import { UserPublicMetadata, UserPrivateMetadata, CardTierName, PostTierName } from './types';
 
@@ -43,7 +44,7 @@ export const createUserAccount = async (formData: FormData) => {
   const userAccount = {
     ...defaultUserAccount(),
     username: formData.get('username') as string,
-    avatarUrl: new URL(formData.get('avatar-url') as string, 'http://localhost:3000').href,
+    avatarUrl: new URL(formData.get('avatar-url') as string, baseUrl()).href,
     interests: interestsIds,
     userId: userIdRaw,
   };

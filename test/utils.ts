@@ -110,6 +110,7 @@ export const rawMembershipCardToMembershipCard = ({
 });
 
 export const rawTokenDataToTokenData = ({
+  tokenId,
   color,
   logoUrl,
   tier,
@@ -123,6 +124,7 @@ export const rawTokenDataToTokenData = ({
   description,
   name,
 }: Tokens.TokenDataStructOutput) => ({
+  tokenId,
   color,
   logoUrl,
   tier,

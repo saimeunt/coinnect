@@ -1,10 +1,11 @@
 'use client';
+import { useIsClient } from 'usehooks-ts';
 
-import { CreatorAccount, MembershipCardNft, Post } from '../../lib/types';
+import { CreatorAccount, TokenData, Post } from '../../lib/types';
 import PostsList from '../lib/creator-page/posts-list';
-import { useMembershipCard } from '../lib/hooks';
+import { useAccountMembershipCard } from '../lib/hooks';
 
-const filterPosts = (posts: Post[], membershipCard?: MembershipCardNft) => {
+const filterPosts = (posts: Post[], membershipCard?: TokenData) => {
   if (!membershipCard) {
     return posts.filter(({ tier }) => tier === 'public');
   }
@@ -20,7 +21,7 @@ const filterPosts = (posts: Post[], membershipCard?: MembershipCardNft) => {
   return posts.filter(
     (post) =>
       tiers[membershipCard.tier].includes(post.tier) &&
-      now < membershipCard.subscriptionEndTimestamp,
+      now < Number(membershipCard.subscriptionEndTimestamp),
   );
 };
 
@@ -33,13 +34,16 @@ const UserPostsList = ({
   posts: Post[];
   user: { fullName: string };
 }) => {
-  const { membershipCard } = useMembershipCard(creatorAccount.name);
+  const isClient = useIsClient();
+  const membershipCard = useAccountMembershipCard(creatorAccount.name);
   return (
-    <PostsList
-      creatorAccount={creatorAccount}
-      posts={filterPosts(posts, membershipCard)}
-      user={user}
-    />
+    isClient && (
+      <PostsList
+        creatorAccount={creatorAccount}
+        posts={filterPosts(posts, membershipCard)}
+        user={user}
+      />
+    )
   );
 };
 

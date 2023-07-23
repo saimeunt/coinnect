@@ -3,7 +3,6 @@ import { formatUnits } from 'viem';
 
 import { baseUrl } from '../../../../lib/utils';
 import { getTokenData } from '../../../../lib/contracts/tokens/contract';
-import { colors } from '../../../../lib/constants';
 
 export const GET = async (request: NextRequest) => {
   const [, , , jsonTokenId] = request.nextUrl.pathname.split('/');
@@ -14,7 +13,7 @@ export const GET = async (request: NextRequest) => {
     baseUrl(),
   );
   const {
-    color: colorNumber,
+    color,
     tier,
     memberId,
     mintTimestamp,
@@ -33,10 +32,6 @@ export const GET = async (request: NextRequest) => {
       name: `${title} Obole`,
     });
   }
-  const { name: color } = colors.find(({ id }) => id === colorNumber) as {
-    id: number;
-    name: string;
-  };
   const attributes = [
     { trait_type: 'name', value: name },
     { trait_type: 'color', value: color },

@@ -67,6 +67,7 @@ contract Tokens is ERC1155 {
    * @dev Output of token metadata
    */
   struct TokenData {
+    uint tokenId;
     uint8 color;
     string logoUrl;
     bytes32 tier;
@@ -109,6 +110,7 @@ contract Tokens is ERC1155 {
   error InvalidSubscriptionDurationError();
   error NotAMemberError(address account);
   error ActiveSubscriptionError();
+
   /**
    * @dev Constructor initializing token URI, sibling contracts addresses and contract constants
    * @param uri token URI
@@ -130,6 +132,7 @@ contract Tokens is ERC1155 {
       subscriptionDurationInMonths[subscriptionDuration] = months[i];
     }
   }
+
   /**
    * @dev Modifier used to guard against calling getCreatorOboleId if msg.sender is not Accounts
    */
@@ -139,6 +142,7 @@ contract Tokens is ERC1155 {
     }
     _;
   }
+
   /**
    * @dev Returns a unique obole id for a newly created creator account
    * @return uint
@@ -147,6 +151,7 @@ contract Tokens is ERC1155 {
     globalCounter.increment();
     return globalCounter.current();
   }
+
   /**
    * @dev Mints a new free membership card of a given creator
    * @param creatorName creator name
@@ -182,6 +187,7 @@ contract Tokens is ERC1155 {
     membershipCardsByOwner[msg.sender][creatorName] = tokenId;
     _mint(msg.sender, tokenId, 1, '');
   }
+
   /**
    * @dev Returns a creator account card tier config
    * @param creatorAccount creator account
@@ -200,13 +206,16 @@ contract Tokens is ERC1155 {
       return creatorAccount.cards.free;
     }
   }
+
   /**
    * @dev Returns a membership card token data
    * @param membershipCard membership card
+   * @param tokenId token id
    * @return TokenData
    */
   function getMembershipCardData(
-    MembershipCard memory membershipCard
+    MembershipCard memory membershipCard,
+    uint tokenId
   ) internal view returns (TokenData memory) {
     Accounts.CreatorAccount memory creatorAccount = accounts.getCreatorAccountByName(
       membershipCard.creatorName
@@ -218,6 +227,7 @@ contract Tokens is ERC1155 {
     Accounts.CardTier memory cardTier = getCardTier(creatorAccount, membershipCard.tier);
     return
       TokenData({
+        tokenId: tokenId,
         color: cardTier.color,
         logoUrl: cardTier.logoUrl,
         tier: membershipCard.tier,
@@ -232,16 +242,20 @@ contract Tokens is ERC1155 {
         name: membershipCard.creatorName
       });
   }
+
   /**
    * @dev Returns an obole token data
    * @param creatorAccount creator account
+   * @param tokenId token id
    * @return TokenData
    */
   function getOboleData(
-    Accounts.CreatorAccount memory creatorAccount
+    Accounts.CreatorAccount memory creatorAccount,
+    uint tokenId
   ) internal pure returns (TokenData memory) {
     return
       TokenData({
+        tokenId: tokenId,
         color: 0,
         logoUrl: creatorAccount.avatarUrl,
         tier: 0,
@@ -256,6 +270,7 @@ contract Tokens is ERC1155 {
         name: creatorAccount.name
       });
   }
+
   /**
    * @dev Returns token data for a given token id
    * @param tokenId token id
@@ -268,10 +283,11 @@ contract Tokens is ERC1155 {
       if (creatorAccount.name == 0) {
         revert InvalidTokenIdError(tokenId);
       }
-      return getOboleData(creatorAccount);
+      return getOboleData(creatorAccount, tokenId);
     }
-    return getMembershipCardData(membershipCard);
+    return getMembershipCardData(membershipCard, tokenId);
   }
+
   /**
    * @dev Make a donation in stable coins to a creator and receive oboles in return
    * @param creatorName creator name
@@ -291,6 +307,7 @@ contract Tokens is ERC1155 {
     // 1 USDC (6 decimals) = 10 OBO (9 decimals)
     _mint(msg.sender, creatorAccount.oboleId, amount * 10 ** 4, '');
   }
+
   /**
    * @dev Subscribe to a creator paid membership to upgrade a membership card tier and receive
    * rewards in obole
@@ -332,6 +349,7 @@ contract Tokens is ERC1155 {
     membershipCard.subscriptionStartTimestamp = block.timestamp;
     membershipCard.subscriptionEndTimestamp = block.timestamp + months * 30 days;
   }
+
   /**
    * @dev Returns rewards accumulated for a given membership card token id
    * @param tokenId token id
@@ -347,6 +365,7 @@ contract Tokens is ERC1155 {
     uint subscriptionTime = (lastTimeRewardsApplicable - membershipCard.subscriptionStartTimestamp);
     return subscriptionTime * rewardsPerSecond;
   }
+
   /**
    * @dev Returns rewards accumulated for a given account and creator name
    * @param account user address
@@ -360,6 +379,7 @@ contract Tokens is ERC1155 {
     }
     return _rewardsAmount(tokenId);
   }
+
   /**
    * @dev Claim rewards accumulated by a user for a given creator name
    * @param creatorName creator name
@@ -379,6 +399,7 @@ contract Tokens is ERC1155 {
     membershipCard.subscriptionStartTimestamp = lastTimeRewardsApplicable;
     _mint(msg.sender, creatorAccount.oboleId, amount, '');
   }
+
   /**
    * @dev Returns a creator outstanding payment balance in stable coin
    * @param account creator address
@@ -387,6 +408,7 @@ contract Tokens is ERC1155 {
   function payoutsAmount(address account) public view returns (uint) {
     return payouts[account];
   }
+
   /**
    * @dev Withdraw creator payouts entirely
    */

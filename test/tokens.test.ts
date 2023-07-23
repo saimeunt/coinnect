@@ -154,6 +154,7 @@ describe('Tokens', () => {
       const tokenData = await tokens.getTokenData(oboleTokenId);
       const { name, title, description, avatarUrl } = defaultCreatorAccount();
       expect(rawTokenDataToTokenData(tokenData)).to.deep.equal({
+        tokenId: oboleTokenId,
         color: 0,
         logoUrl: avatarUrl,
         tier: 0,
@@ -182,6 +183,7 @@ describe('Tokens', () => {
       const { username, avatarUrl } = defaultUserAccount();
       const tokenData = await tokens.getTokenData(membershipCardTokenId);
       expect(rawTokenDataToTokenData(tokenData)).to.deep.equal({
+        tokenId: membershipCardTokenId,
         color,
         logoUrl,
         tier: ethers.encodeBytes32String('free'),
@@ -214,6 +216,7 @@ describe('Tokens', () => {
       const blockTimestamp = await getBlockTimestamp(tx);
       const tokenData = await tokens.getTokenData(membershipCardTokenId);
       expect(rawTokenDataToTokenData(tokenData)).to.deep.equal({
+        tokenId: membershipCardTokenId,
         color,
         logoUrl,
         tier,
@@ -246,6 +249,7 @@ describe('Tokens', () => {
       const blockTimestamp = await getBlockTimestamp(tx);
       const tokenData = await tokens.getTokenData(membershipCardTokenId);
       expect(rawTokenDataToTokenData(tokenData)).to.deep.equal({
+        tokenId: membershipCardTokenId,
         color,
         logoUrl,
         tier,

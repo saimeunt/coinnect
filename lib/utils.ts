@@ -1,5 +1,4 @@
 import { hexToString, stringToHex } from 'viem';
-import { OwnedNft } from 'alchemy-sdk';
 
 import {
   RawCreatorAccount,
@@ -8,10 +7,9 @@ import {
   TokenData,
   RawUserAccount,
   UserAccount,
-  MembershipCardNft,
   CardTierName,
 } from './types';
-import { defaultCreatorAccount } from './constants';
+import { colors, defaultCreatorAccount } from './constants';
 
 export const baseUrl = () =>
   process.env.NODE_ENV !== 'production'
@@ -25,6 +23,14 @@ export const formatCurrency = (amount: number) =>
   })
     .format(amount)
     .replace(/(\.|,)00$/g, '');
+
+export const colorNumberToString = (colorNumber: number) => {
+  const { name: color } = colors.find(({ id }) => id === colorNumber) as {
+    id: number;
+    name: string;
+  };
+  return color.toLowerCase();
+};
 
 export const rawCreatorAccountToCreatorAccount = (
   rawCreatorAccount: RawCreatorAccount,
@@ -76,8 +82,8 @@ export const creatorAccountToRawCreatorAccount = (
 
 export const rawTokenDataToTokenData = (rawTokenData: RawTokenData): TokenData => ({
   ...rawTokenData,
-  // color: hexToString(rawMembershipCardData.color, { size: 32 }),
-  tier: hexToString(rawTokenData.tier, { size: 32 }),
+  color: colorNumberToString(rawTokenData.color),
+  tier: hexToString(rawTokenData.tier, { size: 32 }) as CardTierName,
   username: hexToString(rawTokenData.username, { size: 32 }),
   name: hexToString(rawTokenData.name, { size: 32 }),
 });
@@ -93,41 +99,6 @@ export const userAccountToRawUserAccount = (userAccount: UserAccount): RawUserAc
   username: stringToHex(userAccount.username, { size: 32 }),
   userId: stringToHex(userAccount.userId, { size: 32 }),
 });
-
-export const ownedNftToMembershipCardNft = (ownedNft: OwnedNft): MembershipCardNft => {
-  const nameAttribute = ownedNft.rawMetadata?.attributes?.find(
-    ({ trait_type }) => trait_type === 'name',
-  );
-  const name = nameAttribute ? (nameAttribute.value as string) : '';
-  const colorAttribute = ownedNft.rawMetadata?.attributes?.find(
-    ({ trait_type }) => trait_type === 'color',
-  );
-  const colorRaw = colorAttribute ? (colorAttribute.value as string) : 'Red';
-  const color = colorRaw.toLowerCase();
-  const tierAttribute = ownedNft.rawMetadata?.attributes?.find(
-    ({ trait_type }) => trait_type === 'tier',
-  );
-  const tier = tierAttribute ? (tierAttribute.value as CardTierName) : 'free';
-  const oboleBalanceAttribute = ownedNft.rawMetadata?.attributes?.find(
-    ({ trait_type }) => trait_type === 'oboleBalance',
-  );
-  const oboleBalance = oboleBalanceAttribute ? (oboleBalanceAttribute.value as number) : 0;
-  const subscriptionEndTimestampAttribute = ownedNft.rawMetadata?.attributes?.find(
-    ({ trait_type }) => trait_type === 'subscriptionEndTimestamp',
-  );
-  const subscriptionEndTimestamp = subscriptionEndTimestampAttribute
-    ? (subscriptionEndTimestampAttribute.value as number)
-    : 0;
-  return {
-    tokenId: ownedNft.tokenId,
-    title: ownedNft.title,
-    name,
-    tier,
-    color,
-    oboleBalance,
-    subscriptionEndTimestamp,
-  };
-};
 
 export const defaultPosts = () => [
   {

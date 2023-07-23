@@ -4,7 +4,6 @@ import { capitalize } from 'lodash';
 import { format } from 'date-fns';
 import { formatUnits } from 'viem';
 
-import { colors } from '../../../../lib/constants';
 import { getTokenData } from '../../../../lib/contracts/tokens/contract';
 
 // const size = { width: 1024, height: 1024 };
@@ -100,7 +99,7 @@ export const GET = async (request: NextRequest) => {
   const [, , , tokenIdString] = request.nextUrl.pathname.split('/');
   const tokenId = BigInt(tokenIdString);
   const {
-    color: colorNumber,
+    color,
     logoUrl,
     tier,
     memberId,
@@ -113,17 +112,13 @@ export const GET = async (request: NextRequest) => {
     description,
     name,
   } = await getTokenData(tokenId);
-  const { name: color } = colors.find(({ id }) => id === colorNumber) as {
-    id: number;
-    name: string;
-  };
   const fontResponse = await fetch(
     'https://github.com/google/fonts/blob/main/apache/roboto/static/Roboto-Regular.ttf?raw=true',
   );
   const fontData = await fontResponse.arrayBuffer();
   const svg = await satori(
     <CardPreview
-      color={color.toLowerCase()}
+      color={color}
       logoUrl={logoUrl}
       tier={tier}
       memberId={memberId.toString()}

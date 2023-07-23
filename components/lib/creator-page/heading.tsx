@@ -67,7 +67,7 @@ const Heading = ({
             </div>
             <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
               {role === 'creator' && <CreatorToolbar />}
-              {role === 'user' && <UserToolbar creatorAccount={creatorAccount} />}
+              {role === 'user' && isClient && <UserToolbar creatorAccount={creatorAccount} />}
               {role === 'guest' && <GuestToolbar name={creatorAccount.name} />}
             </div>
           </div>

@@ -1,14 +1,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { capitalize } from 'lodash';
+import { formatUnits } from 'viem';
 
-import { MembershipCardNft } from '../../lib/types';
+import { TokenData } from '../../lib/types';
 import { baseUrl } from '../../lib/utils';
 
 const MembershipCard = ({
-  membershipCard: { tokenId, title, name, color, tier, oboleBalance },
+  membershipCard: { tokenId, title, memberId, name, color, tier, oboleBalance },
 }: {
-  membershipCard: MembershipCardNft;
+  membershipCard: TokenData;
 }) => (
   <li className="relative">
     <Link href={`/user/creators/${name}`}>
@@ -25,7 +26,7 @@ const MembershipCard = ({
       <Link href={`/user/creators/${name}`}>
         <div>
           <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
-            {title}
+            {title} Membership Card #{memberId.toString()}
           </p>
           <p className="pointer-events-none block text-sm font-medium text-gray-500">
             <span
@@ -34,7 +35,7 @@ const MembershipCard = ({
               {capitalize(tier)} membership
             </span>
             <span className="ml-4 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-              {oboleBalance} $OBO
+              {formatUnits(oboleBalance, 9)} $OBO
             </span>
           </p>
         </div>
@@ -55,13 +56,13 @@ const MembershipCard = ({
   </li>
 );
 
-const MembershipCardsList = ({ membershipCards }: { membershipCards: MembershipCardNft[] }) => (
+const MembershipCardsList = ({ membershipCards }: { membershipCards: TokenData[] }) => (
   <ul
     role="list"
     className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8"
   >
     {membershipCards.map((membershipCard) => (
-      <MembershipCard key={membershipCard.tokenId} membershipCard={membershipCard} />
+      <MembershipCard key={membershipCard.tokenId.toString()} membershipCard={membershipCard} />
     ))}
   </ul>
 );
