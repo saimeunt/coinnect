@@ -1,10 +1,10 @@
 import CreatePostButton from './create-post-button';
-import SharePageButton from './share-page-button';
+// import SharePageButton from './share-page-button';
 
 const CreatorToolbar = () => (
   <>
     <CreatePostButton />
-    <SharePageButton />
+    {/* <SharePageButton /> */}
   </>
 );
 

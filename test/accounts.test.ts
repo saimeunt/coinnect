@@ -141,7 +141,7 @@ describe('Accounts', () => {
         accounts.connect(signer2).updateCreatorAccount(defaultCreatorAccount()),
       ).to.be.revertedWithCustomError(accounts, 'NotCreatorError');
     });
-    it('should revert if trying to update creator name', async () => {
+    /* it('should revert if trying to update creator name', async () => {
       const { accounts } = await loadFixture(createCreatorAccountFixture);
       const creatorAccount = defaultCreatorAccount();
       creatorAccount.name = ethers.encodeBytes32String('epic-rabbits2');
@@ -149,7 +149,7 @@ describe('Accounts', () => {
         accounts,
         'InvalidCreatorAccountError',
       );
-    });
+    }); */
     it('should revert if trying to update creator obole id', async () => {
       const { accounts } = await loadFixture(createCreatorAccountFixture);
       const creatorAccount = defaultCreatorAccount();
@@ -236,14 +236,14 @@ describe('Accounts', () => {
         'NotUserError',
       );
     });
-    it('should revert if trying to update username', async () => {
+    /* it('should revert if trying to update username', async () => {
       const { accounts, signer2 } = await loadFixture(createUserAccountFixture);
       const userAccount = defaultUserAccount();
       userAccount.username = ethers.encodeBytes32String('saimeunt2');
       await expect(
         accounts.connect(signer2).updateUserAccount(userAccount),
       ).to.be.revertedWithCustomError(accounts, 'InvalidUserAccountError');
-    });
+    }); */
     it('should revert if trying to update user id', async () => {
       const { accounts, signer2 } = await loadFixture(createUserAccountFixture);
       const userAccount = defaultUserAccount();

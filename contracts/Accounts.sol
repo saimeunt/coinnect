@@ -81,8 +81,8 @@ contract Accounts is Ownable {
   /**
    * @dev Modifier used to guard against updating a creator account if not the owner
    */
-  modifier onlyCreator() {
-    if (creatorAccounts[msg.sender].name == 0) {
+  modifier onlyCreator(bytes32 name) {
+    if (creatorAccounts[msg.sender].name != name) {
       revert NotCreatorError();
     }
     _;
@@ -90,8 +90,8 @@ contract Accounts is Ownable {
   /**
    * @dev Modifier used to guard against updating a user account if not the owner
    */
-  modifier onlyUser() {
-    if (userAccounts[msg.sender].username == 0) {
+  modifier onlyUser(bytes32 username) {
+    if (userAccounts[msg.sender].username != username) {
       revert NotUserError();
     }
     _;
@@ -160,9 +160,10 @@ contract Accounts is Ownable {
    * @dev Updates a creator account
    * @param creatorAccount updated creator account params
    */
-  function updateCreatorAccount(CreatorAccount memory creatorAccount) external onlyCreator {
+  function updateCreatorAccount(
+    CreatorAccount memory creatorAccount
+  ) external onlyCreator(creatorAccount.name) {
     if (
-      creatorAccount.name != creatorAccounts[msg.sender].name ||
       creatorAccount.oboleId != creatorAccounts[msg.sender].oboleId ||
       creatorAccount.userId != creatorAccounts[msg.sender].userId
     ) {
@@ -198,11 +199,10 @@ contract Accounts is Ownable {
    * @dev Updates a user account
    * @param userAccount updated user account params
    */
-  function updateUserAccount(UserAccount memory userAccount) external onlyUser {
-    if (
-      userAccount.username != userAccounts[msg.sender].username ||
-      userAccount.userId != userAccounts[msg.sender].userId
-    ) {
+  function updateUserAccount(
+    UserAccount memory userAccount
+  ) external onlyUser(userAccount.username) {
+    if (userAccount.userId != userAccounts[msg.sender].userId) {
       revert InvalidUserAccountError();
     }
     userAccounts[msg.sender] = userAccount;
