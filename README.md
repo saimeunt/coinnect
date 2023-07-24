@@ -53,8 +53,12 @@ https://coinnect.vercel.app/
 
 A demo of the creator interface is available here:
 
-https://www.loom.com/share/d570a2a8353c42bcaaf5f3d8853a0dd8?sid=60028c6e-34fc-4e57-bb22-2fcc39627c22
+https://www.loom.com/share/c06a1432910c4995b6afeb6b4ca76fa4
 
 A demo of the user interface is available here:
 
-https://www.loom.com/share/d570a2a8353c42bcaaf5f3d8853a0dd8?sid=60028c6e-34fc-4e57-bb22-2fcc39627c22
+https://www.loom.com/share/50c332ca4dec4a12b4bf9a26de7c99fe
+
+La carte de fidélité mise à jour évoquée à la fin de cette vidéo:
+
+https://testnets.opensea.io/assets/mumbai/0x97cbB7A477d7b8d7008d176641c08bf8F9c08e7d/3
