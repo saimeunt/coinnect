@@ -33,15 +33,15 @@ Contracts are deployed on mumbai test network.
 
 StableCoin:
 
-https://mumbai.polygonscan.com/address/0xE7ac17a3E7b7a098e0C4A7A306C476e2Bd4eAB00
+https://mumbai.polygonscan.com/address/0x7bA1Eae5946747c547B6564Aa2d68b4162C89c97
 
 Accounts:
 
-https://mumbai.polygonscan.com/address/0xe5460813EF0aB1A175F0F231362D8d233C2F365C
+https://mumbai.polygonscan.com/address/0x804C6FB01111601C5e6C0EEFdC4bDBB821922d9d
 
 Tokens:
 
-https://mumbai.polygonscan.com/address/0x97cbB7A477d7b8d7008d176641c08bf8F9c08e7d
+https://mumbai.polygonscan.com/address/0x908a16625870e3a0FA3447523BeF79F3efb8F657
 
 ## Deploy dApp
 

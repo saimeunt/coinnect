@@ -176,6 +176,17 @@ const seed = async (stableCoin: StableCoin, accounts: Accounts, tokens: Tokens) 
   tx = await stableCoin.mint(user3Address, stableCoinAmountInUnits);
   await tx.wait();
   console.log(`Minted ${stableCoinAmount} USDC to ${user3Address}`);
+  //
+  const user4Address =
+    process.env.NODE_ENV !== 'production' ? signer4.address : process.env.USER4_ADDRESS;
+  tx = await stableCoin.mint(user4Address, stableCoinAmountInUnits);
+  await tx.wait();
+  console.log(`Minted ${stableCoinAmount} USDC to ${user4Address}`);
+  const user5Address =
+    process.env.NODE_ENV !== 'production' ? signer5.address : process.env.USER5_ADDRESS;
+  tx = await stableCoin.mint(user5Address, stableCoinAmountInUnits);
+  await tx.wait();
+  console.log(`Minted ${stableCoinAmount} USDC to ${user5Address}`);
   // create main creator account
   const rawMainCreatorAccount = mainCreatorAccount();
   await clerkClient.users.updateUserMetadata(mainCreatorId, {

@@ -12,6 +12,8 @@ declare namespace NodeJS {
     readonly USER1_ADDRESS: string;
     readonly USER2_ADDRESS: string;
     readonly USER3_ADDRESS: string;
+    readonly USER4_ADDRESS: string;
+    readonly USER5_ADDRESS: string;
     // readonly ETHERSCAN_API_KEY: string;
     readonly CLERK_SECRET_KEY: string;
     // readonly GOOGLE_CLIENT_ID: string;
