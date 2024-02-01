@@ -1,12 +1,17 @@
-import { Config } from 'tailwindcss';
+import { type Config } from 'tailwindcss';
+import defaultTheme from 'tailwindcss/defaultTheme';
 // import colors from 'tailwindcss/colors';
 import aspectRatioPlugin from '@tailwindcss/aspect-ratio';
 import formsPlugin from '@tailwindcss/forms';
 
 const config = {
-  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
+  content: ['./{app,components}/**/*.{ts,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
       /* colors: {
         transparent: 'transparent',
         current: 'currentColor',

@@ -1,7 +1,7 @@
-import Image from 'next/image';
-import { SignIn } from '@clerk/nextjs';
+// import Image from 'next/image';
+// import { SignIn } from '@clerk/nextjs';
 
-const SignInPage = () => (
+/* const SignInPage = () => (
   <div className="flex flex-col items-center text-center">
     <div className="pb-8">
       <Image className="h-32 w-32" src="/icon.svg" alt="Coinnect logo" width={128} height={128} />
@@ -11,4 +11,4 @@ const SignInPage = () => (
   </div>
 );
 
-export default SignInPage;
+export default SignInPage; */

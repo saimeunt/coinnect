@@ -1,4 +1,4 @@
-import UserCreators from '../../../components/user-creators';
+import UserCreators from '@/app/ui/user-creators';
 
 const UserCreatorsPage = () => <UserCreators />;
 

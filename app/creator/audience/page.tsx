@@ -1,4 +1,4 @@
-import CreatorAudience from '../../../components/creator-audience';
+import CreatorAudience from '@/app/ui/creator-audience';
 
 const CreatorAudiencePage = () => <CreatorAudience />;
 

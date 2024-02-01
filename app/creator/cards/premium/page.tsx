@@ -1,4 +1,4 @@
-import CreatorCardsPremium from '../../../../components/creator-cards/premium';
+import CreatorCardsPremium from '@/app/ui/creator-cards/premium';
 
 const CreatorCardsPremiumPage = () => <CreatorCardsPremium />;
 

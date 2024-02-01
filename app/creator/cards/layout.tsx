@@ -1,37 +1,24 @@
-import { ReactNode } from 'react';
-import { currentUser } from '@clerk/nextjs';
-import { isEqual, omit } from 'lodash';
+import { type ReactNode } from 'react';
 
-import Tabs from '../../../components/lib/tabs';
-import { UserPublicMetadata } from '../../../lib/types';
-import { getCreatorAccountByName } from '../../../lib/contracts/accounts/contract';
-import UnpublishedBanner from '../../../components/lib/creator-page/unpublished-banner';
+import Tabs from '@/app/ui/lib/tabs';
+import { creatorAccountBySlug } from '@/app/lib/contracts/coinnect/contract';
+import UnpublishedBanner from '@/app/ui/lib/creator-page/unpublished-banner';
+import { currentUser, isCreatorAccountPublished } from '@/app/lib/models/user';
 
 const CreatorCardsLayout = async ({ children }: { children: ReactNode }) => {
   const user = await currentUser();
-  if (!user) {
+  if (!user || !user.creatorAccount) {
     return null;
   }
-  const publicMetadata = user.publicMetadata as UserPublicMetadata;
-  const userCreatorAccount = publicMetadata.creatorAccount;
-  if (!userCreatorAccount) {
-    return null;
-  }
-  const creatorAccount = await getCreatorAccountByName(userCreatorAccount.name);
-  const published = isEqual(
-    omit(userCreatorAccount, 'oboleId', 'userId'),
-    omit(creatorAccount, 'oboleId', 'userId'),
-  );
+  const creatorAccount = await creatorAccountBySlug(user.creatorAccount.slug);
+  const published = isCreatorAccountPublished(user.creatorAccount, creatorAccount);
   return (
     <>
       {!published && (
-        <UnpublishedBanner
-          create={creatorAccount.name === '\x00'}
-          creatorAccount={userCreatorAccount}
-        />
+        <UnpublishedBanner unpublished={!creatorAccount} creatorAccount={user.creatorAccount} />
       )}
       <div className="m-4">
-        <h2 className="text-xl font-bold leading-7">Cards</h2>
+        <h2 className="text-xl font-bold leading-7">My membership cards</h2>
         <Tabs
           tabs={[
             { name: 'Free membership', href: '/creator/cards' },

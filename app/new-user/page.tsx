@@ -1,4 +1,4 @@
-import NewUser from '../../components/new-user';
+import NewUser from '@/app/ui/new-user';
 
 const NewUserPage = () => <NewUser />;
 

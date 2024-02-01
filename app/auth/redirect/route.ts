@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth, clerkClient, redirectToSignIn } from '@clerk/nextjs';
+// import { NextRequest, NextResponse } from 'next/server';
+// import { auth, clerkClient, redirectToSignIn } from '@clerk/nextjs';
 
-import { UserPublicMetadata } from '../../../lib/types';
+// import { UserPublicMetadata } from '../../../lib/types';
 
-export const GET = async (req: NextRequest) => {
+/* export const GET = async (req: NextRequest) => {
   const { userId } = auth();
   if (!userId) {
     return redirectToSignIn({ returnBackUrl: req.url });
@@ -23,4 +23,4 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.redirect(new URL('/creator', req.url));
   }
   return NextResponse.redirect(new URL('/user', req.url));
-};
+}; */

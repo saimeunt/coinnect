@@ -1,38 +1,75 @@
-// import { NextResponse } from 'next/server';
-import { authMiddleware, redirectToSignIn, clerkClient } from '@clerk/nextjs';
+import { NextRequest, NextResponse } from 'next/server';
 
-// import { Membership } from './lib/types';
+import { isLoggedIn } from '@/app/lib/session';
+// import { currentUser } from '@/app/lib/models/user';
 
-export default authMiddleware({
-  publicRoutes: [
-    '/',
-    // '/api/card-preview',
-    // '/api/membership-cards/:id',
-    // '/api/tokens/:id.json',
-    '/api/(.*)',
-    '/creators/:name',
-    '/creators/:name/about',
-  ],
-  /* async afterAuth(auth, req, evt) {
-    // handle users who aren't authenticated
-    if (!auth.userId && !auth.isPublicRoute) {
-      return redirectToSignIn({ returnBackUrl: req.url });
+const middleware = async (request: NextRequest) => {
+  /* // const requestHeaders = new Headers(request.headers);
+  // requestHeaders.set('ngrok-skip-browser-warning', 'true');
+  request.headers.set('ngrok-skip-browser-warning', 'true');
+  return NextResponse.next({
+    // request: { headers: requestHeaders },
+    request,
+  }); */
+  // response.cookies.set('ngrok-skip-browser-warning', 'true');
+  const loggedIn = await isLoggedIn();
+  if (loggedIn) {
+    if (request.nextUrl.pathname.startsWith('/creators')) {
+      return NextResponse.redirect(
+        new URL(`/user${request.nextUrl.pathname}`, process.env.NEXT_PUBLIC_BASE_URL),
+      );
     }
-    if (auth.userId) {
-      const user = await clerkClient.users.getUser(auth.userId);
-      if (user.publicMetadata.membership) {
-        const membership = user.publicMetadata.membership as Membership;
-        const redirectUrl = `/creator/${membership.name}`;
-        if (req.nextUrl.pathname !== redirectUrl) {
-          return NextResponse.redirect(new URL(redirectUrl, req.url));
-        }
-      } else if (req.nextUrl.pathname !== '/user') {
-        return NextResponse.redirect(new URL('/user', req.url));
+  } else {
+    if (!request.nextUrl.pathname.startsWith('/creators')) {
+      return NextResponse.redirect(new URL('/auth/login', process.env.NEXT_PUBLIC_BASE_URL));
+    }
+  }
+  /* if (loggedIn) {
+    const user = await currentUser();
+    if (!user) {
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`);
+    }
+    if (request.nextUrl.pathname === '/auth/login') {
+      return NextResponse.redirect(
+        user.creatorAccount
+          ? `${process.env.NEXT_PUBLIC_BASE_URL}/creator`
+          : `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
+      );
+    } else if (request.nextUrl.pathname === '/new-creator') {
+      if (user.creatorAccount) {
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/creator`);
+      }
+    } else if (request.nextUrl.pathname === '/new-user') {
+      if (user.userAccount) {
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/user`);
+      }
+    } else if (request.nextUrl.pathname.startsWith('/creator')) {
+      if (!user.creatorAccount && user.userAccount) {
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/user`);
+      }
+      if (!user.userAccount && !user.creatorAccount) {
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/new-creator`);
+      }
+    } else if (request.nextUrl.pathname.startsWith('/user')) {
+      if (!user.userAccount && user.creatorAccount) {
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/creator`);
+      }
+      if (!user.creatorAccount && !user.userAccount) {
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/new-user`);
       }
     }
-  }, */
-});
+  } else {
+    if (request.nextUrl.pathname !== '/auth/login') {
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`);
+    }
+  } */
+  return NextResponse.next();
+};
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+  // matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/creators/:path*', '/creator/:path*', '/user/:path*'],
+  // matcher: ['/auth/login', '/new-creator', '/new-user', '/creator/:path*', '/user/:path*'],
 };
+
+export default middleware;

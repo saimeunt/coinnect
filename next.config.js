@@ -8,7 +8,12 @@ module.exports = {
     return config;
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    remotePatterns: [
+      // { protocol: 'http', hostname: 'localhost' },
+      { protocol: 'https', hostname: 'effigy.im' },
+    ],
   },
-  experimental: { serverActions: true },
+  /* experimental: {
+    turbo: { resolveAlias: { fs: { browser: '' }, net: { browser: '' }, tls: { browser: '' } } },
+  }, */
 };

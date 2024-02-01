@@ -1,4 +1,4 @@
-import Index from '../components/index';
+import Index from '@/app/ui/index/index';
 
 const title = 'Coinnect';
 const description = 'Coinnect - dApp';

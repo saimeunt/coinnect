@@ -1,4 +1,4 @@
-import UserDiscover from '../../../components/user-discover';
+import UserDiscover from '@/app/ui/user-discover';
 
 const UserDiscoverPage = () => <UserDiscover />;
 

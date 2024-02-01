@@ -1,4 +1,4 @@
-import CreatorSettings from '../../../components/creator-settings';
+import CreatorSettings from '@/app/ui/creator-settings';
 
 const CreatorSettingsPage = () => <CreatorSettings />;
 

@@ -1,4 +1,4 @@
-import CreatorExclusivities from '../../../components/creator-exclusivities';
+import CreatorExclusivities from '@/app/ui/creator-exclusivities';
 
 const CreatorExclusivitiesPage = () => <CreatorExclusivities />;
 

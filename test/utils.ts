@@ -1,52 +1,53 @@
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-
-import { Accounts, Tokens } from '../typechain-types';
 import { ContractTransactionResponse } from 'ethers';
 
-export const baseUrl = () => 'http://localhost:3000';
-
-export const userId1Raw = '2SZ0zGOcsSko6C48kfOZL25HEkS';
-export const userId2Raw = '2SklVwW19XjvJpFRWjTE6V5uE2J';
+import { type Coinnect } from '../typechain-types';
 
 export const defaultCreatorAccount = () => ({
-  name: ethers.encodeBytes32String('epic-rabbits'),
+  id: ethers.encodeBytes32String('1'),
+  slug: ethers.encodeBytes32String('epic-rabbits'),
   title: 'Epic Rabbits',
   description:
     'Epic Rabbits is a community of generative artificial intelligence enthusiasts. We have free tutorials on Midjourney and private lives where we embark on an adventure to discover and learn Stable Diffusion.',
-  avatarUrl: new URL('/img/creators/epic-rabbits/avatar.jpg', baseUrl()).href,
-  bannerUrl: new URL('/img/creators/epic-rabbits/banner.jpg', baseUrl()).href,
-  interests: [BigInt(0)],
+  avatarUrl: new URL('/img/creators/epic-rabbits/avatar.jpg', process.env.NEXT_PUBLIC_BASE_URL)
+    .href,
+  bannerUrl: new URL('/img/creators/epic-rabbits/banner.jpg', process.env.NEXT_PUBLIC_BASE_URL)
+    .href,
+  interests: [0n],
   cards: {
     free: {
-      logoUrl: new URL('/img/creators/epic-rabbits/free.jpg', baseUrl()).href,
-      color: BigInt(0),
+      logoUrl: new URL('/img/creators/epic-rabbits/free.jpg', process.env.NEXT_PUBLIC_BASE_URL)
+        .href,
+      color: 0n,
     },
     standard: {
-      logoUrl: new URL('/img/creators/epic-rabbits/standard.jpg', baseUrl()).href,
-      color: BigInt(5),
+      logoUrl: new URL('/img/creators/epic-rabbits/standard.jpg', process.env.NEXT_PUBLIC_BASE_URL)
+        .href,
+      color: 5n,
     },
     premium: {
-      logoUrl: new URL('/img/creators/epic-rabbits/premium.jpg', baseUrl()).href,
-      color: BigInt(10),
+      logoUrl: new URL('/img/creators/epic-rabbits/premium.jpg', process.env.NEXT_PUBLIC_BASE_URL)
+        .href,
+      color: 10n,
     },
   },
-  oboleId: BigInt(1),
-  userId: ethers.encodeBytes32String(userId1Raw),
+  obolId: 1n,
 });
 
 export const rawCreatorAccountToCreatorAccount = ({
-  name,
+  id,
+  slug,
   title,
   description,
   avatarUrl,
   bannerUrl,
   interests,
   cards,
-  oboleId,
-  userId,
-}: Accounts.CreatorAccountStructOutput) => ({
-  name,
+  obolId,
+}: Coinnect.CreatorAccountStructOutput) => ({
+  id,
+  slug,
   title,
   description,
   avatarUrl,
@@ -57,31 +58,25 @@ export const rawCreatorAccountToCreatorAccount = ({
     standard: { logoUrl: cards.standard.logoUrl, color: cards.standard.color },
     premium: { logoUrl: cards.premium.logoUrl, color: cards.premium.color },
   },
-  oboleId,
-  userId,
+  obolId,
 });
 
 export const defaultUserAccount = () => ({
+  id: ethers.encodeBytes32String('1'),
   username: ethers.encodeBytes32String('saimeunt'),
-  avatarUrl: new URL('/img/users/avatar1.jpg', baseUrl()).href,
-  interests: [BigInt(0)],
-  userId: ethers.encodeBytes32String(userId2Raw),
+  avatarUrl: new URL('/img/users/avatar1.jpg', process.env.NEXT_PUBLIC_BASE_URL).href,
+  interests: [0n],
 });
 
 export const rawUserAccountToUserAccount = ({
+  id,
   username,
   avatarUrl,
   interests,
-  userId,
-}: Accounts.UserAccountStructOutput) => ({
-  username,
-  avatarUrl,
-  interests: [...interests],
-  userId,
-});
+}: Coinnect.UserAccountStructOutput) => ({ id, username, avatarUrl, interests: [...interests] });
 
 export const rawMembershipCardToMembershipCard = ({
-  creatorName,
+  creatorAccountId,
   userAddress,
   tier,
   memberId,
@@ -89,17 +84,8 @@ export const rawMembershipCardToMembershipCard = ({
   subscriptionDuration,
   subscriptionStartTimestamp,
   subscriptionEndTimestamp,
-}: {
-  creatorName: string;
-  userAddress: string;
-  tier: string;
-  memberId: bigint;
-  mintTimestamp: bigint;
-  subscriptionDuration: bigint;
-  subscriptionStartTimestamp: bigint;
-  subscriptionEndTimestamp: bigint;
-}) => ({
-  creatorName,
+}: Coinnect.MembershipCardStructOutput) => ({
+  creatorAccountId,
   userAddress,
   tier,
   memberId,
@@ -109,7 +95,7 @@ export const rawMembershipCardToMembershipCard = ({
   subscriptionEndTimestamp,
 });
 
-export const rawTokenDataToTokenData = ({
+export const rawMembershipCardDataToMembershipCardData = ({
   tokenId,
   color,
   logoUrl,
@@ -119,11 +105,11 @@ export const rawTokenDataToTokenData = ({
   subscriptionEndTimestamp,
   username,
   avatarUrl,
-  oboleBalance,
+  obolBalance,
   title,
   description,
-  name,
-}: Tokens.TokenDataStructOutput) => ({
+  slug,
+}: Coinnect.MembershipCardDataStructOutput) => ({
   tokenId,
   color,
   logoUrl,
@@ -133,10 +119,10 @@ export const rawTokenDataToTokenData = ({
   subscriptionEndTimestamp,
   username,
   avatarUrl,
-  oboleBalance,
+  obolBalance,
   title,
   description,
-  name,
+  slug,
 });
 
 export const getBlockTimestamp = async (tx: ContractTransactionResponse) => {

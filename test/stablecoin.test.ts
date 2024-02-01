@@ -7,20 +7,20 @@ describe('StableCoin', () => {
     const stableCoin = await ethers.deployContract('StableCoin');
     await stableCoin.waitForDeployment();
     const [signer1, signer2] = await ethers.getSigners();
-    return { stableCoin, signer1, signer2 };
+    return { stableCoin, signer1: signer1!, signer2: signer2! };
   };
   describe('decimals', () => {
     it('should return 6', async () => {
       const { stableCoin } = await loadFixture(deployContractAndSetVariablesFixture);
-      expect(await stableCoin.decimals()).to.equal(BigInt(6));
+      expect(await stableCoin.decimals()).to.equal(6n);
     });
   });
   describe('mint', () => {
     it('should revert if not called by owner', async () => {
       const { stableCoin, signer2 } = await loadFixture(deployContractAndSetVariablesFixture);
-      await expect(
-        stableCoin.connect(signer2).mint(signer2.address, ethers.parseUnits('10000', 6)),
-      ).to.be.revertedWith('Ownable: caller is not the owner');
+      await expect(stableCoin.connect(signer2).mint(signer2.address, ethers.parseUnits('10000', 6)))
+        .to.be.revertedWithCustomError(stableCoin, 'OwnableUnauthorizedAccount')
+        .withArgs(signer2.address);
     });
     it('should mint ERC20 tokens to owner', async () => {
       const { stableCoin, signer1 } = await loadFixture(deployContractAndSetVariablesFixture);

@@ -1,4 +1,4 @@
-import CreatorCards from '../../../components/creator-cards';
+import CreatorCards from '@/app/ui/creator-cards';
 
 const CreatorCardsPage = () => <CreatorCards />;
 

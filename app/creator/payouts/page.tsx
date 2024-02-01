@@ -1,4 +1,4 @@
-import CreatorPayouts from '../../../components/creator-payouts';
+import CreatorPayouts from '@/app/ui/creator-payouts';
 
 const CreatorPayoutsPage = () => <CreatorPayouts />;
 

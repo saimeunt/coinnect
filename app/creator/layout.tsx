@@ -1,21 +1,21 @@
-import { ReactNode } from 'react';
-import { currentUser } from '@clerk/nextjs';
-// import { currentUser } from '../../lib/utils';
+import { type ReactNode } from 'react';
 
-import Sidebar from '../../components/lib/sidebar';
+import { currentAddress } from '@/app/lib/session';
+import { currentUser } from '@/app/lib/models/user';
+import Sidebar from '@/app/ui/lib/sidebar';
+import { balanceOf } from '@/app/lib/contracts/stablecoin/contract';
 
 const CreatorLayout = async ({ children }: { children: ReactNode }) => {
-  const user = await currentUser();
-  if (!user) {
+  const address = await currentAddress();
+  const [user, userBalance] = await Promise.all([currentUser(), balanceOf(address)]);
+  if (!user || !user.userAccount || !user.creatorAccount) {
     return null;
   }
-  // const publicMetadata = user.publicMetadata as UserPublicMetadata;
-  // const role = publicMetadata.creatorAccount ? 'creator' : 'user';
   return (
     <Sidebar
       navigation={[
-        { name: 'Insights', href: '/creator', icon: 'ChartBarIcon' },
-        { name: 'My page', href: '/creator/page', icon: 'HomeIcon' },
+        { name: 'My page', href: '/creator', icon: 'HomeIcon' },
+        { name: 'Insights', href: '/creator/insights', icon: 'ChartBarIcon' },
         { name: 'Cards', href: '/creator/cards', icon: 'IdentificationIcon' },
         { name: 'Exclusivities', href: '/creator/exclusivities', icon: 'GiftIcon' },
         { name: 'Audience', href: '/creator/audience', icon: 'UsersIcon' },
@@ -23,7 +23,11 @@ const CreatorLayout = async ({ children }: { children: ReactNode }) => {
         { name: 'Payouts', href: '/creator/payouts', icon: 'CurrencyDollarIcon' },
         { name: 'Settings', href: '/creator/settings', icon: 'CogIcon' },
       ]}
-      user={{ fullName: `${user.firstName} ${user.lastName}`, role: 'creator' }}
+      user={user}
+      userAccount={user.userAccount}
+      creatorAccount={user.creatorAccount}
+      userBalance={userBalance}
+      role="creator"
     >
       {children}
     </Sidebar>

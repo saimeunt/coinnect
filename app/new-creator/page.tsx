@@ -1,4 +1,4 @@
-import NewCreator from '../../components/new-creator';
+import NewCreator from '@/app/ui/new-creator';
 
 const NewCreatorPage = () => <NewCreator />;
 

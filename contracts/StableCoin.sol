@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity 0.8.22;
 
 import '@openzeppelin/contracts/access/Ownable.sol';
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
@@ -8,7 +8,7 @@ import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
  * @dev USDC clone implemented using ERC20
  */
 contract StableCoin is Ownable, ERC20 {
-  constructor() ERC20('USD Coin', 'USDC') {}
+  constructor() Ownable(msg.sender) ERC20('USD Coin', 'USDC') {}
 
   /**
    * @dev Returns the number of decimals used by USDC
@@ -27,5 +27,5 @@ contract StableCoin is Ownable, ERC20 {
     _mint(account, amount);
   }
 
-  // fallback() external {}
+  fallback() external {}
 }

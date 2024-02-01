@@ -1,16 +1,17 @@
-import { ReactNode } from 'react';
-import { currentUser } from '@clerk/nextjs';
-// import { currentUser } from '../../lib/utils';
+import { type ReactNode } from 'react';
 
-import Sidebar from '../../components/lib/sidebar';
+import { currentAddress } from '@/app/lib/session';
+import { currentUser } from '@/app/lib/models/user';
+import Sidebar from '@/app/ui/lib/sidebar';
+import { balanceOf } from '@/app/lib/contracts/stablecoin/contract';
+import DisconnectedBanner from '@/app/ui/lib/disconnected-banner';
 
 const UserLayout = async ({ children }: { children: ReactNode }) => {
-  const user = await currentUser();
-  if (!user) {
+  const address = await currentAddress();
+  const [user, userBalance] = await Promise.all([currentUser(), balanceOf(address)]);
+  if (!user || !user.userAccount) {
     return null;
   }
-  // const publicMetadata = user.publicMetadata as UserPublicMetadata;
-  // const role = publicMetadata.creatorAccount ? 'creator' : 'user';
   return (
     <Sidebar
       navigation={[
@@ -20,8 +21,13 @@ const UserLayout = async ({ children }: { children: ReactNode }) => {
         // { name: 'Governance', href: '/user/governance', icon: 'EnvelopeOpenIcon' },
         { name: 'Settings', href: '/user/settings', icon: 'CogIcon' },
       ]}
-      user={{ fullName: `${user.firstName} ${user.lastName}`, role: 'user' }}
+      user={user}
+      userAccount={user.userAccount}
+      creatorAccount={user.creatorAccount}
+      userBalance={userBalance}
+      role="user"
     >
+      <DisconnectedBanner address={address} />
       {children}
     </Sidebar>
   );

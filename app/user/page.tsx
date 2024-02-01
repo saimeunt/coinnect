@@ -1,4 +1,4 @@
-import UserFeed from '../../components/user';
+import UserFeed from '@/app/ui/user';
 
 const UserFeedPage = () => <UserFeed />;
 

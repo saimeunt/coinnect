@@ -1,4 +1,4 @@
-import CreatorCardsStandard from '../../../../components/creator-cards/standard';
+import CreatorCardsStandard from '@/app/ui/creator-cards/standard';
 
 const CreatorCardsStandardPage = () => <CreatorCardsStandard />;
 

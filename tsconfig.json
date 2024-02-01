@@ -1,32 +1,46 @@
 {
   "compilerOptions": {
-    "target": "es2015",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "incremental": true,
+    /* Base Options */
     "esModuleInterop": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "target": "ES2022",
+    /* "verbatimModuleSyntax": true, */
+    "allowJs": true,
     "resolveJsonModule": true,
+    "moduleDetection": "force",
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    /* If transpiling with TypeScript */
+    /* "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "outDir": "dist",
+    "sourceMap": true, */
+    /* If NOT transpiling with TypeScript */
+    "moduleResolution": "Node", // Bundler
+    "module": "CommonJS", // ESNext
+    "noEmit": true,
+    /* If your code runs in the DOM */
+    "lib": ["dom", "dom.iterable", "es2022"],
+    /* If your code doesn't run in the DOM */
+    /* "lib": ["es2022"], */
+    /* If you're building for a library */
+    /* "declaration": true, */
+    /* If you're building for a library in a monorepo */
+    /* "composite": true,
+    "declarationMap": true, */
+    "incremental": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "plugins": [
       {
-        "name": "next"
-      }
-    ]
+        "name": "next",
+      },
+    ],
+    "paths": {
+      "@/*": ["./*"],
+    },
   },
-  "include": [
-    "custom.d.ts",
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "./typechain-types",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "./typechain-types"],
+  "exclude": ["components", "node_modules"],
 }

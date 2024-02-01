@@ -1,4 +1,4 @@
-import CreatorGovernance from '../../../components/creator-governance';
+import CreatorGovernance from '@/app/ui/creator-governance';
 
 const CreatorGovernancePage = () => <CreatorGovernance />;
 

@@ -1,4 +1,4 @@
-import { HardhatUserConfig } from 'hardhat/config';
+import { type HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
 import * as dotenv from 'dotenv';
 
@@ -6,7 +6,7 @@ dotenv.config({ path: '.env.local' });
 
 const config = {
   solidity: {
-    version: '0.8.19',
+    version: '0.8.22',
     settings: {
       optimizer: {
         enabled: true,
