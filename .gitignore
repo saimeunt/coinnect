@@ -5,6 +5,7 @@ cache
 components
 coverage
 node_modules
+prisma/generated
 typechain-types
 .DS_Store
 .env.local
